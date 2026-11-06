@@ -1,0 +1,15 @@
+# Pacotes AUR explícitos (baseado em: pacman -Qemq).
+# Instalados por: ./install.sh --aur
+brave-bin
+lavat-git
+localsend
+mangowm-git
+mpv-full
+python-pywal
+swaylock-effects
+tty-clock
+wal-telegram-git
+waybar-git
+wl-screenrec
+yay-bin
+yay-bin-debug

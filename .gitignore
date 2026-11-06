@@ -1,0 +1,11 @@
+# Backups criados pelo deploy.sh
+*.bak-*
+
+# Arquivos temporários
+*.tmp
+*~
+.DS_Store
+
+# Wallpapers pessoais (só o default-dark.png é versionado)
+.config/wallpapers/*
+!.config/wallpapers/default-dark.png

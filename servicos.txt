@@ -1,0 +1,10 @@
+# Serviços systemd habilitados nesta configuração.
+# Remova o que não fizer sentido na sua máquina antes de rodar --services.
+bluetooth.service
+fstrim.timer
+NetworkManager.service
+NetworkManager-dispatcher.service
+power-profiles-daemon.service
+sddm.service
+seatd.service
+ufw.service

@@ -1,0 +1,116 @@
+{
+    "$schema": "/etc/xdg/swaync/configSchema.json",
+    "positionX": "right",
+    "positionY": "top",
+    "control-center-margin-top": 40,
+    "control-center-margin-bottom": 60,
+    "control-center-margin-right": 0,
+    "control-center-margin-left": 0,
+    "notification-body-image-height": 200,
+    "notification-body-image-width": 200,
+    "timeout": 4,
+    "timeout-low": 2,
+    "timeout-critical": 0,
+    "fit-to-screen": true,
+    "_comment": "If control-center-width changes, update min-width of .widget-buttons-grid flowboxchild > button in style.css: (width - 44) / 4 - 12 - (5..10). Currently 450 -> 84.",
+    "control-center-width": 450,
+    "notification-window-width": 600,
+    "keyboard-shortcuts": true,
+    "image-visibility": "when-available",
+    "transition-time": 300,
+    "hide-on-clear": false,
+    "hide-on-action": true,
+    "widgets": [
+        "title",
+        "mpris",
+        "buttons-grid",
+        "menubar",
+        "volume",
+        "backlight",
+        "dnd",
+        "notifications"
+    ],
+    "widget-config": {
+        "title": {
+            "text": "Notificações",
+            "clear-all-button": true,
+            "button-text": "Limpar tudo"
+        },
+        "dnd": {
+            "text": "Não Perturbe"
+        },
+        "mpris": {
+            "autohide": true
+        },
+        "volume": {
+            "label": ""
+        },
+        "backlight": {
+            "label": "󰖨"
+        },
+        "notifications": {},
+        "buttons-grid": {
+            "actions": [
+                {
+                    "label": "󰖩",
+                    "type": "toggle",
+                    "active": true,
+                    "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && nmcli radio wifi on || nmcli radio wifi off >/dev/null 2>&1'",
+                    "update-command": "sh -c '[[ $(nmcli radio wifi) == \"enabled\" ]] && echo true || echo false'"
+                },
+                {
+                    "label": "󰝟",
+                    "type": "toggle",
+                    "active": true,
+                    "command": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle >/dev/null 2>&1",
+                    "update-command": "wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q 'MUTED' && echo true || echo false"
+                },
+                {
+                    "label": "",
+                    "type": "toggle",
+                    "active": true,
+                    "command": "$HOME/.config/scripts/idle_inhibit.sh --toggle >/dev/null 2>&1",
+                    "update-command": "sh -c '[[ -f $HOME/.local/state/cadrocspace/state/idle_inhibit ]] && [[ $(cat $HOME/.local/state/cadrocspace/state/idle_inhibit) == 1 ]] && echo true || echo false'"
+                }
+            ]
+        },
+        "menubar": {
+            "menu#power-buttons": {
+                "label": "󰤆",
+                "position": "left",
+                "actions": [
+                    {
+                        "label": "󰑓   Reiniciar",
+                        "command": "systemctl reboot"
+                    },
+                    {
+                        "label": "   Bloquear",
+                        "command": "$HOME/.config/scripts/lock.sh"
+                    },
+                    {
+                        "label": "󰤆   Desligar",
+                        "command": "systemctl poweroff"
+                    }
+                ]
+            },
+            "menu#powermode-buttons": {
+                "label": "󱓞",
+                "position": "left",
+                "actions": [
+                    {
+                        "label": "Performance",
+                        "command": "powerprofilesctl set performance"
+                    },
+                    {
+                        "label": "Balanced",
+                        "command": "powerprofilesctl set balanced"
+                    },
+                    {
+                        "label": "Power-saver",
+                        "command": "powerprofilesctl set power-saver"
+                    }
+                ]
+            }
+        }
+    }
+}

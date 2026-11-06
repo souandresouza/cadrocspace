@@ -1,0 +1,37 @@
+
+set adjust-open "best-fit"
+
+set pages-per-row 1
+
+set scroll-page-aware "true"
+set smooth-scroll "true"
+set scroll-full-overlap 0.01
+set scroll-step 100
+
+set zoom-min 10
+set guioptions "s"
+
+set font "inconsolata 15"
+set default-bg "#1a0f0d"
+set default-fg "#bcaea1"
+
+set statusbar-fg "#bcaea1"
+set statusbar-bg "#1a0f0d"
+
+set inputbar-bg "#1a0f0d"
+set inputbar-fg "#d13323"
+
+set highlight-color "#e5e1d080"
+set highlight-active-color "#dc472f80"
+
+set recolor true
+set recolor-lightcolor "#bcaea1"
+set recolor-darkcolor "#1a0f0d"
+set recolor-reverse-video true
+#set recolor-keephue true
+
+set render-loading false
+set scroll-step 50
+unmap f
+map f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen

@@ -1,0 +1,130 @@
+// ~/.config/mango/waybar.jsonc
+// Barra do mangowm. Usa os modulos mango/* do waybar-git e reaproveita
+// o style.css de ~/.config/waybar (que importa colors-waybar.css do ruwall).
+{
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "spacing": 6,
+    "margin-top": 6,
+    "margin-left": 8,
+    "margin-right": 8,
+    "reload_style_on_change": true,
+
+    "modules-left": [
+        "mango/workspaces",
+        "mango/window"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "tray",
+        "bluetooth",
+        "network",
+        "pulseaudio",
+        "backlight",
+        "battery",
+        "cpu",
+        "memory"
+    ],
+
+    "mango/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "on-click-right": "toggle",
+        "hide-empty": false
+    },
+
+    "mango/window": {
+        "format": "{title}",
+        "max-length": 70
+    },
+
+    "clock": {
+        "format": "{:%T}",
+        "interval": 1,
+        "format-alt": "{:%a, %d %b}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1
+        },
+        "actions": {
+            "on-click": "toggle",
+            "on-scroll": "shift_up"
+        }
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+
+    "bluetooth": {
+        "format": "{icon}",
+        "format-icons": {
+            "on": "\uf293",
+            "off": "\uf293",
+            "disabled": "\uf293"
+        },
+        "tooltip-format": "{controller_alias}",
+        "tooltip-format-connected": "{controller_alias}\n{device_enumerate}",
+        "on-click": "blueman-manager"
+    },
+
+    "network": {
+        "format-wifi": "\uf1eb {essid}",
+        "format-ethernet": "\uf0ac {ifname}",
+        "format-linked": "\uf0ac {ifname}",
+        "format-disconnected": "\uf071 off",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}/{cidr}",
+        "tooltip-format-ethernet": "{ifname}\n{ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "Desconectado",
+        "on-click": "nm-connection-editor"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "\uf026 muted",
+        "format-icons": {
+            "default": ["\uf026", "\uf027", "\uf028"]
+        },
+        "scroll-step": 2,
+        "on-click": "pavucontrol"
+    },
+
+    "backlight": {
+        "format": "\uf185 {percent}%",
+        "min-brightness": 1
+    },
+
+    "battery": {
+        "bat": "BAT1",
+        "interval": 30,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "\uf0e7 {capacity}%",
+        "format-plugged": "\uf0e7 {capacity}%",
+        "format-full": "\uf240 {capacity}%",
+        "format-icons": ["\uf244", "\uf243", "\uf242", "\uf241", "\uf240"],
+        "tooltip-format": "{timeTo}\n{power}W"
+    },
+
+    "cpu": {
+        "format": "\uf2db {usage}%",
+        "interval": 3,
+        "tooltip": false
+    },
+
+    "memory": {
+        "format": "\uf538 {percentage}%",
+        "interval": 5,
+        "tooltip": false
+    }
+}

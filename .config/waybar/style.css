@@ -1,0 +1,174 @@
+/* ~/.config/waybar/style.css
+ * As cores vêm de colors-waybar.css, gerado pelo ruwall a partir do wallpaper.
+ */
+
+@import url("colors-waybar.css");
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans Symbols 2", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+}
+
+window#waybar {
+    background-color: alpha(@background, 0.86);
+    border: 1px solid alpha(@color4, 0.35);
+    border-radius: 12px;
+    color: @foreground;
+    box-shadow: 0 2px 12px alpha(@color0, 0.55);
+    transition: background-color .4s ease, border-color .4s ease;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+tooltip {
+    background-color: @background;
+    border: 1px solid @color3;
+    border-radius: 8px;
+}
+
+tooltip label {
+    color: @foreground;
+    padding: 4px;
+}
+
+/* --- Workspaces (mango) ----------------------------------------------- */
+
+#workspaces {
+    margin: 0 2px 0 6px;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    margin: 4px 2px;
+    min-width: 14px;
+    border-radius: 8px;
+    background-color: transparent;
+    color: @color8;
+    box-shadow: none;
+}
+
+#workspaces button:hover {
+    background-color: alpha(@color3, 0.65);
+    color: @foreground;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    background-color: @color4;
+    color: @background;
+}
+
+#workspaces button.urgent {
+    background-color: @color5;
+    color: @background;
+}
+
+#workspaces button.empty {
+    color: alpha(@color8, 0.55);
+}
+
+/* --- Janela focada ---------------------------------------------------- */
+
+#window {
+    margin: 0 8px;
+    padding: 0 6px;
+    color: @color2;
+    font-weight: 500;
+}
+
+/* --- Relógio ---------------------------------------------------------- */
+
+#clock {
+    margin: 4px 0;
+    padding: 0 14px;
+    border-radius: 9px;
+    background-color: @color4;
+    color: @background;
+    font-weight: 700;
+}
+
+/* --- Módulos da direita ----------------------------------------------- */
+
+#tray,
+#bluetooth,
+#network,
+#pulseaudio,
+#backlight,
+#battery,
+#cpu,
+#memory {
+    margin: 4px 2px;
+    padding: 0 9px;
+    border-radius: 8px;
+    background-color: alpha(@color3, 0.30);
+    color: @color7;
+}
+
+#tray {
+    background-color: transparent;
+    padding: 0 6px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @color5;
+    color: @background;
+    border-radius: 8px;
+}
+
+#bluetooth.off,
+#bluetooth.disabled {
+    background-color: transparent;
+    color: @color8;
+}
+
+#bluetooth.connected {
+    color: @color4;
+}
+
+#network.disconnected {
+    color: @color5;
+}
+
+#pulseaudio.muted {
+    color: @color8;
+}
+
+#backlight,
+#cpu,
+#memory {
+    color: @color2;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @color4;
+}
+
+#battery.warning:not(.charging) {
+    color: @color6;
+}
+
+#battery.critical:not(.charging) {
+    background-color: @color5;
+    color: @background;
+    animation: blink 1s steps(12) infinite alternate;
+}
+
+@keyframes blink {
+    to {
+        opacity: 0.55;
+    }
+}
