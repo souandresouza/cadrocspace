@@ -18,8 +18,8 @@
 #   lista_pacman.txt -> pacman -Qenq
 #   lista_aur.txt    -> pacman -Qemq
 #
-# Os pacotes exclusivos do niri foram removidos da lista oficial. A lista é o
-# conjunto completo de pacotes explícitos do setup, não um "mínimo funcional".
+# A lista é o conjunto completo de pacotes explícitos do setup, não um
+# "mínimo funcional".
 #
 # cadrocfile e ruwall são OPCIONAIS: o install.sh padrão não instala nenhum
 # dos dois. Use --cadrocfile e/ou --ruwall se quiser esses extras.
@@ -113,13 +113,11 @@ install_aur() {
 }
 
 regenerate_lists() {
-    log "Regenerando lista_pacman.txt (sem pacotes exclusivos do niri)..."
+    log "Regenerando lista_pacman.txt..."
     {
         echo "# Pacotes oficiais explícitos (baseado em: pacman -Qenq)."
-        echo "# Lista do setup mangowm; removidos os pacotes exclusivos do niri:"
-        echo "#   niri, xwayland-satellite"
         echo "# Instalados por: ./install.sh --pacman"
-        pacman -Qenq | grep -v -xE 'niri|xwayland-satellite' | sort
+        pacman -Qenq | sort
     } > "$PACMAN_LIST"
 
     log "Regenerando lista_aur.txt..."

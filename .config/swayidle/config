@@ -1,5 +1,5 @@
 # ~/.config/swayidle/config
-# Usado pelo mangowm (exec_once=swayidle -w -C ...) e pelo niri.
+# Usado pelo mangowm (exec_once=swayidle -w -C ...).
 # Ajuste os tempos em segundos como quiser.
 
 # 5 min sem uso: bloqueia a tela

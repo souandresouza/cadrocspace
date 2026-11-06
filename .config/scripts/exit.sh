@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Menu de saída/bloqueio. Funciona em niri, Hyprland, Sway e mangowm.
+# Menu de saída/bloqueio. Funciona em mangowm, Hyprland e Sway.
 
 set -euo pipefail
 
@@ -29,8 +29,6 @@ if [[ -n ${sel_option:-} ]]; then
                 # Encerra o compositor atual de forma limpa.
                 if command -v mmsg >/dev/null 2>&1 && pgrep -x mango >/dev/null 2>&1; then
                     mmsg dispatch quit
-                elif [[ -n ${NIRI_SOCKET:-} ]] || pgrep -x niri >/dev/null 2>&1; then
-                    niri msg action quit --skip-confirmation
                 elif [[ -n ${HYPRLAND_INSTANCE_SIGNATURE:-} ]]; then
                     hyprctl dispatch exit
                 elif [[ -n ${SWAYSOCK:-} ]]; then

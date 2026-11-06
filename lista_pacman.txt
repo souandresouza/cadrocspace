@@ -1,6 +1,4 @@
 # Pacotes oficiais explícitos (baseado em: pacman -Qenq).
-# Lista do setup mangowm; removidos os pacotes exclusivos do niri:
-#   niri, xwayland-satellite
 # Instalados por: ./install.sh --pacman
 7zip
 accountsservice

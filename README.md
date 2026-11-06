@@ -18,7 +18,7 @@ mango-dotfiles/
 ├── deploy.sh               # Copia configs/scripts do repo para ~/.config
 ├── check.sh                # Valida sintaxe dos scripts (.sh)
 ├── LICENSE                 # Licença MIT
-├── lista_pacman.txt        # Pacotes oficiais explícitos (sem niri)
+├── lista_pacman.txt        # Pacotes oficiais explícitos
 ├── lista_aur.txt           # Pacotes AUR explícitos
 ├── servicos.txt            # Serviços systemd a habilitar
 ├── .bashrc                 # PATH de ~/.local/bin e aliases básicos
@@ -65,14 +65,6 @@ máquina de origem:
 
 - `lista_pacman.txt` → `pacman -Qenq`
 - `lista_aur.txt` → `pacman -Qemq`
-
-Os pacotes **exclusivos do niri** foram removidos da lista oficial:
-
-- `niri` (o compositor niri em si)
-- `xwayland-satellite` (o mangowm já tem XWayland próprio)
-
-Os demais pacotes relacionados a Wayland que também servem ao mangowm foram
-mantidos, como `seatd`, `xdg-desktop-portal-wlr`, `swaybg` e `swayidle`.
 
 > As listas refletem o setup completo da máquina, **não um mínimo funcional**.
 > Elas incluem kernel, firmware, drivers e aplicativos que talvez você não
@@ -137,15 +129,6 @@ git add -A && git commit -m "..."
 Backups dos arquivos substituídos ficam em
 `~/.cache/mango-dotfiles/backups/<timestamp>/`.
 
-O `--prune` preserva de propósito dois arquivos que pertencem ao setup do niri
-e não são versionados aqui:
-
-- `~/.config/waybar/config.jsonc`
-- `~/.config/scripts/colors/niri-colors.sh`
-
-Assim é possível manter niri e mangowm na mesma máquina sem que o deploy do
-mango apague a configuração do niri.
-
 ## Ajustes que você provavelmente precisa fazer
 
 Alguns valores são específicos do hardware/uso da máquina de origem:
@@ -184,9 +167,6 @@ Atalhos úteis:
 
 - `SUPER+P` — recarrega a Waybar
 - `SUPER+K` — abre/fecha a central de notificações do SwayNC
-
-O `config.jsonc` da Waybar do niri **não** é incluído neste repositório; só o
-`style.css` e as cores são compartilhados.
 
 ## Cores e tema dinâmico (ruwall ou pywal)
 
@@ -324,8 +304,8 @@ Quando instalar/remover pacotes explicitamente, regenere as listas:
 git add lista_*.txt && git commit -m "Atualizar lista de pacotes"
 ```
 
-O `--update-lists` mantém o filtro de `niri` e `xwayland-satellite` na lista
-oficial.
+O `--update-lists` regenera as listas a partir dos pacotes explícitos da
+máquina atual. Revise o resultado antes de commitar.
 
 ## Validação
 

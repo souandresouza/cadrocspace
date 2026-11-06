@@ -59,12 +59,7 @@ run_color() {
     "$script" || echo "run-scripts: aviso: ${name}-colors.sh falhou" >&2
 }
 
-apps=(cava cadroc fastfetch fuzzel kitty swaylock swaync waybar zathura)
-
-# O script do mangowm é sempre usado. O do niri só roda se existir localmente:
-# ele não é versionado no mango-dotfiles, mas pode continuar na máquina.
-[[ -x "$COLOR_DIR/mango-colors.sh" ]] && apps+=(mango)
-[[ -x "$COLOR_DIR/niri-colors.sh" ]] && apps+=(niri)
+apps=(cava cadroc fastfetch fuzzel kitty mango swaylock swaync waybar zathura)
 
 for app in "${apps[@]}"; do
     run_color "$app"

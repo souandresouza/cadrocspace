@@ -16,10 +16,6 @@
 #
 # --pull copia apenas os diretórios gerenciados, exceto wallpapers pessoais:
 # de ~/.config/wallpapers só o default-dark.png é versionado.
-#
-# Compatibilidade: o config.jsonc do Waybar do niri e o niri-colors.sh não são
-# gerenciados por este repositório. Eles são preservados mesmo com --prune e
-# ignorados no --pull.
 # =============================================================================
 
 set -euo pipefail
@@ -38,7 +34,7 @@ GENERATE=0
 PRUNE=0
 
 usage() {
-    sed -n '2,24p' "${BASH_SOURCE[0]}" | sed 's/^#//'
+    sed -n '2,19p' "${BASH_SOURCE[0]}" | sed 's/^#//'
     exit 0
 }
 
@@ -70,16 +66,6 @@ prepare_backup_dir() {
     mkdir -p "$BACKUP_ROOT"
 }
 
-# Arquivos que pertencem a outros setups (niri) e não devem ser apagados/puxados.
-target_excludes() {
-    local name="$1"
-    case "$name" in
-        scripts) echo "--exclude=colors/niri-colors.sh" ;;
-        waybar)  echo "--exclude=config.jsonc" ;;
-        *)       echo "" ;;
-    esac
-}
-
 push_target() {
     local name="$1"
     local src="$REPO_DIR/.config/$name"
@@ -104,9 +90,6 @@ push_target() {
     fi
 
     local args=(-a --backup --backup-dir="$BACKUP_ROOT/$name" --itemize-changes)
-    local exclude
-    exclude="$(target_excludes "$name")"
-    [[ -n "$exclude" ]] && args+=("$exclude")
     [[ "$DRY_RUN" -eq 1 ]] && args+=(-n)
     # wallpapers nunca são podados: a pasta pode conter imagens pessoais.
     [[ "$PRUNE" -eq 1 && "$name" != "wallpapers" ]] && args+=(--delete)
@@ -145,9 +128,6 @@ pull_target() {
 
     local args=(-a --itemize-changes
         --exclude='*.bak-*' --exclude='*~' --exclude='*.tmp')
-    local exclude
-    exclude="$(target_excludes "$name")"
-    [[ -n "$exclude" ]] && args+=("$exclude")
     [[ "$DRY_RUN" -eq 1 ]] && args+=(-n)
     [[ "$DRY_RUN" -eq 0 ]] && mkdir -p "$dst"
 
