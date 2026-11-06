@@ -5,7 +5,7 @@ no **Arch Linux puro (rolling)**, com Waybar, SwayNC, Swaylock, Swayidle,
 Fuzzel, Kitty e os scripts de apoio usados no dia a dia.
 
 O repositório cobre as configurações principais do ambiente mangowm — não
-apenas `~/.config/mango` — e **não inclui nada do IMVU**.
+apenas `~/.config/mango`.
 
 > **cadrocfile e ruwall são opcionais.** O `install.sh` padrão não instala
 > nenhum dos dois. Veja as seções específicas mais abaixo.
@@ -347,8 +347,6 @@ mango -p -c ~/.config/mango/config.conf   # valida a config do mangowm
   minutos (`~/.config/swayidle/config`). Ajuste os tempos como quiser.
 - **Gravação de tela**: `record.sh` usa `wl-screenrec` por padrão e aceita
   `--gpu` para usar `gpu-screen-recorder`.
-- **Sem IMVU**: nenhuma configuração, script, binário ou pacote do IMVU faz
-  parte deste repositório.
 
 ## Licença
 
