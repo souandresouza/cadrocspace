@@ -1,21 +1,21 @@
 /* Gerado por ~/.config/scripts/colors/swaync-colors.sh a partir do Pywal.
    NÃO EDITE MANUALMENTE — edite style.css ou o script. */
 
-@define-color bg          #1a0f0d;
-@define-color fg          #bcaea1;
-@define-color muted       #8e0814;
-@define-color accent      #d13323;
-@define-color surface     #bba283;
-@define-color surface-2   #e5e1d0;
+@define-color bg          #0e0f0d;
+@define-color fg          #9eaea8;
+@define-color muted       #2b3826;
+@define-color accent      #5b7348;
+@define-color surface     #a1b3a5;
+@define-color surface-2   #d3dad2;
 
 /* Variantes translúcidas */
-@define-color bg-solid    #1a0f0d;
-@define-color bg-cc       rgba(26, 15, 13, 0.94);
-@define-color bg-hover    rgba(187, 162, 131, 0.32);
-@define-color bg-active   rgba(187, 162, 131, 0.45);
-@define-color border      rgba(187, 162, 131, 0.55);
-@define-color border-soft rgba(187, 162, 131, 0.30);
-@define-color accent-soft rgba(209, 51, 35, 0.22);
-@define-color accent-mid  rgba(209, 51, 35, 0.55);
-@define-color fg-dim      rgba(188, 174, 161, 0.55);
-@define-color fg-faint    rgba(188, 174, 161, 0.12);
+@define-color bg-solid    #0e0f0d;
+@define-color bg-cc       rgba(14, 15, 13, 0.94);
+@define-color bg-hover    rgba(161, 179, 165, 0.32);
+@define-color bg-active   rgba(161, 179, 165, 0.45);
+@define-color border      rgba(161, 179, 165, 0.55);
+@define-color border-soft rgba(161, 179, 165, 0.30);
+@define-color accent-soft rgba(91, 115, 72, 0.22);
+@define-color accent-mid  rgba(91, 115, 72, 0.55);
+@define-color fg-dim      rgba(158, 174, 168, 0.55);
+@define-color fg-faint    rgba(158, 174, 168, 0.12);
