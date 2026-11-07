@@ -41,8 +41,8 @@
         "max-length": 70
     },
 
-    // Cores do calendário em hex fixo: acompanhe a paleta de
-    // colors-waybar.css ao trocar o wallpaper.
+    // Cores do calendário geradas por ~/.config/scripts/colors/waybar-colors.sh
+    // a partir da paleta do wallpaper. Os hex abaixo são apenas o fallback.
     "clock": {
         "locale": "pt_BR.UTF-8",
         "format": " {:L%H:%M:%S, %d %B %Y} ",

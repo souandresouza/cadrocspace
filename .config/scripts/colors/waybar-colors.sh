@@ -1,9 +1,11 @@
 #!/bin/sh
 # ~/.config/scripts/colors/waybar-colors.sh
-# Gera configuração de cores do Waybar baseado no wallpaper atual (via Pywal)
+# Gera a paleta do Waybar e as cores do calendário a partir do wallpaper atual
+# (ruwall/pywal). Chamado pelo run-scripts.sh.
 
 COLORS_FILE="$HOME/.cache/wal/colors.css"
 WAYBAR_FILE="$HOME/.config/waybar/colors-waybar.css"
+CALENDAR_FILE="$HOME/.config/mango/waybar.jsonc"
 
 if [ ! -f "$COLORS_FILE" ]; then
     echo "ERRO: sem paleta em $COLORS_FILE"
@@ -46,8 +48,9 @@ color13=$(extract_color 13)
 color14=$(extract_color 14)
 color15=$(extract_color 15)
 
-# Verificar se as cores foram extraídas
-if [ -z "$color0" ] || [ -z "$background" ] || [ -z "$foreground" ]; then
+# Verificar se as cores foram extraídas (color1/2/8 também alimentam o calendário)
+if [ -z "$color0" ] || [ -z "$background" ] || [ -z "$foreground" ] ||
+    [ -z "$color1" ] || [ -z "$color2" ] || [ -z "$color8" ]; then
     echo "ERRO: a paleta em $COLORS_FILE não tem cores utilizáveis."
     echo "Regere com: ~/.config/scripts/run-scripts.sh"
     exit 1
@@ -80,6 +83,38 @@ cat > "$WAYBAR_FILE" << EOF
 EOF
 
 echo "✅ Configuração gerada em $WAYBAR_FILE"
+
+# O calendário do relógio usa os mesmos tokens da paleta, mas em hex fixo dentro
+# do waybar.jsonc. Atualiza só os cinco campos do calendário, preservando o
+# restante do arquivo e as permissões originais.
+update_calendar_colors() {
+    [ -f "$CALENDAR_FILE" ] || return 0
+
+    tmp="$(mktemp "${CALENDAR_FILE}.XXXXXX")" || return 1
+
+    if ! sed \
+        -e "/\"months\":/s|color='#[0-9a-fA-F]\{6\}'|color='$color2'|" \
+        -e "/\"days\":/s|color='#[0-9a-fA-F]\{6\}'|color='$foreground'|" \
+        -e "/\"weeks\":/s|color='#[0-9a-fA-F]\{6\}'|color='$color8'|" \
+        -e "/\"weekdays\":/s|color='#[0-9a-fA-F]\{6\}'|color='$color1'|" \
+        -e "/\"today\":/s|color='#[0-9a-fA-F]\{6\}'|color='$color2'|" \
+        "$CALENDAR_FILE" > "$tmp"; then
+        rm -f "$tmp"
+        echo "ERRO: não foi possível atualizar o calendário em $CALENDAR_FILE" >&2
+        return 1
+    fi
+
+    if cmp -s "$CALENDAR_FILE" "$tmp"; then
+        rm -f "$tmp"
+        echo "ℹ️  Calendário da Waybar já está com a paleta atual"
+    else
+        cat "$tmp" > "$CALENDAR_FILE"
+        rm -f "$tmp"
+        echo "✅ Cores do calendário atualizadas em $CALENDAR_FILE"
+    fi
+}
+
+update_calendar_colors
 
 # Recarrega a Waybar se estiver em execução
 if pgrep -x waybar &>/dev/null; then

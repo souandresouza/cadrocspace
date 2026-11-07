@@ -182,8 +182,9 @@ Atalhos úteis:
 ## Cores e tema dinâmico (ruwall ou pywal)
 
 O script `~/.config/scripts/run-scripts.sh` gera a paleta a partir do wallpaper
-e atualiza as cores de Waybar, Kitty, Fuzzel, SwayNC, Swaylock, Cava, Zathura e
-do próprio mangowm (`theme.conf`).
+e atualiza as cores de Waybar, Kitty, Fuzzel, SwayNC, Swaylock, Cava, Zathura,
+do próprio mangowm (`theme.conf`) e do calendário da Waybar (os hex dentro de
+`mango/waybar.jsonc`).
 
 Por padrão ele usa o **ruwall**:
 
@@ -331,9 +332,10 @@ mango -p -c ~/.config/mango/config.conf   # valida a config do mangowm
 - **Wallpaper padrão**: só `~/.config/wallpapers/default-dark.png` é
   versionado. Outros wallpapers são pessoais e ficam fora do git.
 - **Arquivos de cor** (`colors-*`, `cava/themes/colors`, `zathurarc`,
-  `swaylock/config`, `mango/theme.conf`) são gerados pelo `run-scripts.sh` a
-  partir do wallpaper. Eles ficam no repositório como fallback para o primeiro
-  boot e são sobrescritos quando você troca o tema.
+  `swaylock/config`, `mango/theme.conf`) e os hex do calendário em
+  `mango/waybar.jsonc` são gerados pelo `run-scripts.sh` a partir do wallpaper.
+  Eles ficam no repositório como fallback para o primeiro boot e são
+  sobrescritos quando você troca o tema.
 - **Tela de bloqueio**: `swayidle` bloqueia após 5 minutos e suspende após 15
   minutos (`~/.config/swayidle/config`). Ajuste os tempos como quiser.
 - **Gravação de tela**: `record.sh` usa `wl-screenrec` por padrão e aceita
