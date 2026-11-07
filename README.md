@@ -10,6 +10,12 @@ apenas `~/.config/mango`.
 > **cadrocfile e ruwall são opcionais.** O `install.sh` padrão não instala
 > nenhum dos dois. Veja as seções específicas mais abaixo.
 
+## Captura
+
+![Mangowm com Waybar, lavat, tty-clock e cmatrix](screenshots/mango-waybar.png)
+
+*Waybar do mangowm com a paleta gerada a partir do wallpaper atual.*
+
 ## Estrutura
 
 ```
@@ -18,6 +24,7 @@ mango-dotfiles/
 ├── deploy.sh               # Copia configs/scripts do repo para ~/.config
 ├── check.sh                # Valida sintaxe dos scripts (.sh)
 ├── LICENSE                 # Licença MIT
+├── screenshots/            # Capturas usadas no README
 ├── lista_pacman.txt        # Pacotes oficiais explícitos
 ├── lista_aur.txt           # Pacotes AUR explícitos
 ├── servicos.txt            # Serviços systemd a habilitar
@@ -154,8 +161,12 @@ Alguns valores são específicos do hardware/uso da máquina de origem:
 A Waybar do mangowm fica em `~/.config/mango/waybar.jsonc` e usa os módulos
 `mango/workspaces` e `mango/window` do `waybar-git`.
 
-O visual continua sendo o mesmo: `~/.config/waybar/style.css` e
-`~/.config/waybar/colors-waybar.css` são compartilhados com o tema atual.
+O visual é definido por `~/.config/waybar/style.css` e
+`~/.config/waybar/colors-waybar.css` (paleta gerada a partir do wallpaper).
+
+Os módulos `custom/recorder` e `custom/recordertime` chamam
+`~/.config/scripts/record.sh`: o ícone inicia/para a gravação e o tempo só
+aparece enquanto há uma gravação ativa.
 
 O mangowm inicia a barra com:
 

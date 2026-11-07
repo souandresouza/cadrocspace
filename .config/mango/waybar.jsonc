@@ -25,15 +25,15 @@
         "pulseaudio",
         "backlight",
         "battery",
-        "cpu",
-        "memory"
+        "custom/recorder",
+        "custom/recordertime"
     ],
 
     "mango/workspaces": {
         "format": "{name}",
         "on-click": "activate",
         "on-click-right": "toggle",
-        "hide-empty": false
+        "hide-empty": true
     },
 
     "mango/window": {
@@ -41,20 +41,31 @@
         "max-length": 70
     },
 
+    // Cores do calendário em hex fixo: acompanhe a paleta de
+    // colors-waybar.css ao trocar o wallpaper.
     "clock": {
-        "format": "{:%T}",
+        "locale": "pt_BR.UTF-8",
+        "format": " {:L%H:%M:%S, %d %B %Y} ",
+        "format-alt": " {:L%A, %d %B %Y} ",
         "interval": 1,
-        "format-alt": "{:%a, %d %b}",
-        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "tooltip-format": "<big>{:L%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "month",
             "mode-mon-col": 3,
             "weeks-pos": "right",
-            "on-scroll": 1
+            "on-scroll": 1,
+            "format": {
+                "months":   "<span color='#d3dad2'><b>{}</b></span>",
+                "days":     "<span color='#9eaea8'>{}</span>",
+                "weeks":    "<span color='#6e7975'><b>W{}</b></span>",
+                "weekdays": "<span color='#a1b3a5'><b>{}</b></span>",
+                "today":    "<span color='#d3dad2'><b><u>{}</u></b></span>"
+            }
         },
         "actions": {
-            "on-click": "toggle",
-            "on-scroll": "shift_up"
+            "on-click-right": "mode",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
         }
     },
 
@@ -116,15 +127,22 @@
         "tooltip-format": "{timeTo}\n{power}W"
     },
 
-    "cpu": {
-        "format": "\uf2db {usage}%",
-        "interval": 3,
-        "tooltip": false
+    "custom/recorder": {
+        "format": "",
+        "on-click": "$HOME/.config/scripts/record.sh",
+        "tooltip": true,
+        "tooltip-format": "Iniciar/parar gravação"
     },
 
-    "memory": {
-        "format": "\uf538 {percentage}%",
-        "interval": 5,
-        "tooltip": false
+    "custom/recordertime": {
+        "exec": "if [ -f /tmp/recording_time ]; then cat /tmp/recording_time; fi",
+        "interval": 1,
+        "format": "{text}",
+        "return-type": "plain",
+        "if-file-exists": "/tmp/recording_pid",
+        "hide-empty-text": true,
+        "on-click": "$HOME/.config/scripts/record.sh",
+        "tooltip": true,
+        "tooltip-format": "Parar gravação"
     }
 }
