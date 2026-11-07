@@ -12,7 +12,7 @@ apenas `~/.config/mango`.
 
 ## Captura
 
-![Mangowm com Waybar, lavat, tty-clock e cmatrix](screenshots/mango-waybar.png)
+![Mangowm com Waybar, cava, tty-clock, cmatrix e lavat](screenshots/mango-waybar.png)
 
 *Waybar do mangowm com a paleta gerada a partir do wallpaper atual.*
 
