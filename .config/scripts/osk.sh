@@ -21,7 +21,7 @@ if pgrep -x "$BIN" >/dev/null 2>&1; then
 fi
 
 if ! command -v "$BIN" >/dev/null 2>&1; then
-    notify-send -u critical "Teclado virtual" \
+    notify-send -u normal -a "osk" "Teclado virtual" \
         "$BIN não encontrado. Instale com: yay -S wvkbd"
     exit 1
 fi
