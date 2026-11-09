@@ -106,15 +106,16 @@ tooltip label {
     margin: 5px 0;
     padding: 0 16px;
     border-radius: 9px;
-    background-color: @color4;
-    background-image: linear-gradient(135deg,
-        alpha(@color4, 0.96),
-        alpha(@color5, 0.96));
-    border: 1px solid alpha(@color2, 0.12);
-    color: @color2;
+    /* Sem degradê: fundo sólido da paleta + texto de contraste garantido.
+     * O par background/foreground do pywal/ruwall sempre tem contraste,
+     * então o relógio fica nítido com qualquer wallpaper. */
+    background-color: @background;
+    background-image: none;
+    border: 1px solid alpha(@color5, 0.55);
+    color: @foreground;
     font-weight: 700;
     letter-spacing: .3px;
-    box-shadow: 0 0 10px alpha(@color4, 0.22);
+    box-shadow: 0 0 10px alpha(@color5, 0.18);
 }
 
 /* --- Módulos da direita ----------------------------------------------- */
