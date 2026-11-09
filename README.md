@@ -255,6 +255,11 @@ O teclado virtual usa o `wvkbd` (AUR) e alterna com `SUPER+SHIFT+O`. Ele ajuda
 quando alguma tecla do notebook falha e também evita teclas físicas (útil
 contra keyloggers de hardware); não protege contra keylogger de software.
 
+Para ter uma tecla `ç`/`Ç` dedicada (ao lado do `L`, como no ABNT2), rode
+`.config/scripts/wvkbd/build-ptbr.sh`: ele compila um `wvkbd-ptbr` em
+`~/.local/bin`, que o `osk.sh` passa a preferir automaticamente. Sem esse
+binário, o `ç` continua acessível pelo `Cmp` → `c`.
+
 A lista completa e sempre atualizada fica em `.config/mango/bind.conf` e pode
 ser aberta com `SUPER+A`.
 

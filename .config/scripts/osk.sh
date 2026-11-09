@@ -11,12 +11,21 @@ set -euo pipefail
 # Instalação: yay -S wvkbd   (o pacote instala o binário wvkbd-mobintl)
 # Ajustes: WVKBD_BIN (layout) e WVKBD_HEIGHT (altura em landscape)
 
-BIN="${WVKBD_BIN:-wvkbd-mobintl}"
+BIN="${WVKBD_BIN:-}"
+if [[ -z "$BIN" ]]; then
+    # Prefere o binário com ç dedicado (build-ptbr.sh); cai no do pacote.
+    if command -v wvkbd-ptbr >/dev/null 2>&1; then
+        BIN="wvkbd-ptbr"
+    else
+        BIN="wvkbd-mobintl"
+    fi
+fi
+PROC="$(basename -- "$BIN")"
 HEIGHT="${WVKBD_HEIGHT:-280}"
 
-if pgrep -x "$BIN" >/dev/null 2>&1; then
+if pgrep -x "$PROC" >/dev/null 2>&1; then
     # wvkbd responde a SIGRTMIN alternando entre visível e escondido.
-    pkill -RTMIN -x "$BIN"
+    pkill -RTMIN -x "$PROC"
     exit 0
 fi
 
