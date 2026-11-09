@@ -242,6 +242,13 @@ de repetir qualquer um. O ciclo fica em
 | `ALT+Print` | Screenshot do monitor |
 | `CTRL+Print` | Screenshot de uma região |
 | `SHIFT+Print` | Screenshot com anotação (satty) |
+| `SUPER+Print` | Extrair texto (OCR) de uma região |
+| `SUPER+SHIFT+Print` | Ler um QR code de uma região |
+
+O OCR e o QR copiam o resultado para o clipboard. O OCR usa o `tesseract`
+(modelos `por`/`eng`); o QR usa o `zbar`. Se os dados do tesseract não estiverem
+em `/usr/share/tessdata`, o script recorre a
+`~/.local/share/tesseract/tessdata`.
 
 A lista completa e sempre atualizada fica em `.config/mango/bind.conf` e pode
 ser aberta com `SUPER+A`.

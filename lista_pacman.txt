@@ -165,6 +165,9 @@ swaybg
 swayidle
 swaync
 telegram-desktop
+tesseract
+tesseract-data-eng
+tesseract-data-por
 tlp
 tree
 ttf-bitstream-vera
@@ -214,6 +217,7 @@ xsettingsd
 yazi
 yt-dlp
 zathura-pdf-mupdf
+zbar
 zed
 zenity
 zoxide
