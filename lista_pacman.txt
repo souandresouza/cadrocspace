@@ -41,6 +41,7 @@ duf
 efibootmgr
 efitools
 ethtool
+evtest
 exfatprogs
 f2fs-tools
 fastfetch
@@ -154,12 +155,15 @@ satty
 scrcpy
 sddm
 sg3_utils
+shellcheck
+shfmt
 slurp
 smartmontools
 snapper
 sof-firmware
 speech-dispatcher
 stb
+strace
 sudo
 swaybg
 swayidle
@@ -194,6 +198,8 @@ vte3
 vulkan-intel
 vulkan-nouveau
 vulkan-radeon
+wayland-utils
+wev
 wget
 wine
 wine-gecko
@@ -204,6 +210,7 @@ wl-clip-persist
 wlr-randr
 wlsunset
 wpa_supplicant
+wtype
 xdg-desktop-portal-gtk
 xdg-desktop-portal-wlr
 xdg-user-dirs
