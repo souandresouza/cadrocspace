@@ -84,6 +84,46 @@ EOF
 
 echo "✅ Configuração gerada em $WAYBAR_FILE"
 
+# Escolhe a primeira cor (hex #rrggbb) com contraste >= $1 contra o background.
+# Nem toda cor da paleta é legível: color1..color6 variam de claro a escuro
+# conforme o wallpaper. Usa $foreground como último recurso, pois o pywal
+# garante contraste dele com o fundo.
+# Uso: pick_color <min_contraste> <cor>...
+pick_color() {
+    min="$1"
+    shift
+    awk -v bg="$background" -v fallback="$foreground" -v min="$min" '
+    function lin(c) { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ^ 2.4 }
+    function lum(h,   r, g, b) {
+        h = substr(h, 2)
+        r = strtonum("0x" substr(h, 1, 2))
+        g = strtonum("0x" substr(h, 3, 2))
+        b = strtonum("0x" substr(h, 5, 2))
+        return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+    }
+    function ratio(a, b,   la, lb) {
+        la = lum(a); lb = lum(b)
+        return la > lb ? (la + 0.05) / (lb + 0.05) : (lb + 0.05) / (la + 0.05)
+    }
+    BEGIN {
+        for (i = 1; i < ARGC; i++) {
+            if (ARGV[i] ~ /^#[0-9a-fA-F]{6}$/ && ratio(ARGV[i], bg) >= min) {
+                print ARGV[i]
+                exit
+            }
+        }
+        print fallback
+    }' "$@"
+}
+
+# Cores do calendário: escolhe variantes legíveis e mantém a paleta quando ela
+# já tem contraste. Sem isso, meses/dias da semana podem sumir em fundos escuros.
+cal_months=$(pick_color 4.5 "$color2" "$color5" "$color7" "$foreground")
+cal_days="$foreground"
+cal_weeks=$(pick_color 3.0 "$color8" "$color7" "$foreground")
+cal_weekdays=$(pick_color 3.0 "$color1" "$color8" "$color7" "$foreground")
+cal_today=$(pick_color 4.5 "$color5" "$color7" "$foreground")
+
 # O calendário do relógio usa os mesmos tokens da paleta, mas em hex fixo dentro
 # do waybar.jsonc. Atualiza só os cinco campos do calendário, preservando o
 # restante do arquivo e as permissões originais.
@@ -93,11 +133,11 @@ update_calendar_colors() {
     tmp="$(mktemp "${CALENDAR_FILE}.XXXXXX")" || return 1
 
     if ! sed \
-        -e "/\"months\":/s|color='#[0-9a-fA-F]\{6\}'|color='$color2'|" \
-        -e "/\"days\":/s|color='#[0-9a-fA-F]\{6\}'|color='$foreground'|" \
-        -e "/\"weeks\":/s|color='#[0-9a-fA-F]\{6\}'|color='$color8'|" \
-        -e "/\"weekdays\":/s|color='#[0-9a-fA-F]\{6\}'|color='$color1'|" \
-        -e "/\"today\":/s|color='#[0-9a-fA-F]\{6\}'|color='$color2'|" \
+        -e "/\"months\":/s|color='#[0-9a-fA-F]\{6\}'|color='$cal_months'|" \
+        -e "/\"days\":/s|color='#[0-9a-fA-F]\{6\}'|color='$cal_days'|" \
+        -e "/\"weeks\":/s|color='#[0-9a-fA-F]\{6\}'|color='$cal_weeks'|" \
+        -e "/\"weekdays\":/s|color='#[0-9a-fA-F]\{6\}'|color='$cal_weekdays'|" \
+        -e "/\"today\":/s|color='#[0-9a-fA-F]\{6\}'|color='$cal_today'|" \
         "$CALENDAR_FILE" > "$tmp"; then
         rm -f "$tmp"
         echo "ERRO: não foi possível atualizar o calendário em $CALENDAR_FILE" >&2
