@@ -229,6 +229,7 @@ de repetir qualquer um. O ciclo fica em
 | `SUPER+C` | Color picker |
 | `SUPER+H` | Trocar wallpaper |
 | `SUPER+V` | Histórico do clipboard |
+| `SUPER+SHIFT+O` | Teclado virtual na tela (mostrar/esconder) |
 | `SUPER+SHIFT+G` | Gravar a tela |
 | `SUPER+M` | Menu de saída/suspensão |
 | `SUPER+Q` | Fechar a janela focada |
@@ -249,6 +250,10 @@ O OCR e o QR copiam o resultado para o clipboard. O OCR usa o `tesseract`
 (modelos `por`/`eng`); o QR usa o `zbar`. Se os dados do tesseract não estiverem
 em `/usr/share/tessdata`, o script recorre a
 `~/.local/share/tesseract/tessdata`.
+
+O teclado virtual usa o `wvkbd` (AUR) e alterna com `SUPER+SHIFT+O`. Ele ajuda
+quando alguma tecla do notebook falha e também evita teclas físicas (útil
+contra keyloggers de hardware); não protege contra keylogger de software.
 
 A lista completa e sempre atualizada fica em `.config/mango/bind.conf` e pode
 ser aberta com `SUPER+A`.

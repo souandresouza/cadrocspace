@@ -11,5 +11,6 @@ tty-clock
 wal-telegram-git
 waybar-git
 wl-screenrec
+wvkbd
 yay-bin
 yay-bin-debug
