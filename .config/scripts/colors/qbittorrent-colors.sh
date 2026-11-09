@@ -30,7 +30,7 @@ fi
 
 mkdir -p "$THEME_DIR"
 
-python3 - "$COLORS_FILE" "$TEMPLATE" "$THEME_DIR" <<'PYEOF'
+if ! python3 - "$COLORS_FILE" "$TEMPLATE" "$THEME_DIR" <<'PYEOF'
 import json, re, sys, colorsys
 
 colors_file, template, theme_dir = sys.argv[1:4]
@@ -161,8 +161,7 @@ with open(theme_dir + '/stylesheet.qss', 'w', encoding='utf-8') as f:
 
 print('  bg=%s  fg=%s  accent=%s' % (colors['BG'], colors['TEXT'], colors['ACCENT']))
 PYEOF
-
-if [ $? -ne 0 ]; then
+then
     echo "ERRO: falha ao gerar o tema."
     exit 1
 fi

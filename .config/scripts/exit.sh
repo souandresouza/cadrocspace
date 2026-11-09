@@ -6,16 +6,16 @@ set -euo pipefail
 lock_cmd="$HOME/.config/scripts/lock.sh"
 
 # Opções do fuzzel (versão >= 1.11)
-conf="--dmenu --match-mode=exact --launch-prefix=<not set>"
+conf=(--dmenu --match-mode=exact "--launch-prefix=<not set>")
 options=("🔒\tBloquear\n" "⏸\tSuspender\n" "⏏\tSair\n" "🔄\tReiniciar\n" "⏻\tDesligar")
 
-sel_option=$(echo -e "${options[@]}" | fuzzel $conf --lines=5 --prompt "Seleciona uma opção:  ")
+sel_option=$(echo -e "${options[@]}" | fuzzel "${conf[@]}" --lines=5 --prompt "Seleciona uma opção:  ")
 
 if [[ -n ${sel_option:-} ]]; then
     action=$(echo "$sel_option" | awk '{print $NF}')
 
     confirm=$(echo -e "Não - cancelar\nSim - confirmar" | \
-        fuzzel $conf --lines=2 --prompt "Confirmar $action ?  " | awk '{print $1}')
+        fuzzel "${conf[@]}" --lines=2 --prompt "Confirmar $action ?  " | awk '{print $1}')
 
     if [[ ${confirm:-} == "Sim" ]]; then
         case $action in

@@ -157,7 +157,7 @@ update_calendar_colors() {
 update_calendar_colors
 
 # Recarrega a Waybar se estiver em execução
-if pgrep -x waybar &>/dev/null; then
+if pgrep -x waybar >/dev/null 2>&1; then
     pkill -SIGUSR2 -x waybar 2>/dev/null || true
     echo "✅ Waybar recarregada"
 else

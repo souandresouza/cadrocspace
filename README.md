@@ -344,6 +344,10 @@ máquina atual. Revise o resultado antes de commitar.
 mango -p -c ~/.config/mango/config.conf   # valida a config do mangowm
 ```
 
+O `.shellcheckrc` na raiz desativa alguns avisos que são falsos positivos
+estruturais (source dinâmico, variáveis de paleta compartilhadas entre scripts
+e expressões literais dentro de aspas simples).
+
 ## Notas
 
 - **Wallpaper padrão**: só `~/.config/wallpapers/default-dark.png` é

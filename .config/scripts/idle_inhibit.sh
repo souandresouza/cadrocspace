@@ -26,7 +26,8 @@ is_audio_playing() {
     ')
 
     local timestamp_file="/tmp/cadroc_audio_timestamp"
-    local current_time=$(date +%s)
+    local current_time
+    current_time=$(date +%s)
     local grace_period=5
 
     if [[ "$check_audio" == "1" ]]; then
@@ -35,7 +36,8 @@ is_audio_playing() {
     fi
 
     if [[ -f "$timestamp_file" ]]; then
-        local last_played=$(cat "$timestamp_file")
+        local last_played
+        last_played=$(cat "$timestamp_file")
         if (( current_time - last_played < grace_period )); then
             return 0
         fi

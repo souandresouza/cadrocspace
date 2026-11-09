@@ -660,7 +660,7 @@ container_video_ok() {
             case "$codec" in mpeg4|h264|mjpeg|mpeg2video|dvvideo|huffyuv) return 0 ;; esac ;;
         mpg|mpeg|vob)
             case "$codec" in mpeg2video|mpeg1video) return 0 ;; esac ;;
-        flv|f4v)
+        flv)
             case "$codec" in h264|flv1) return 0 ;; esac ;;
         wmv|asf)
             case "$codec" in wmv2|wmv1|msmpeg4v3) return 0 ;; esac ;;
@@ -688,7 +688,7 @@ container_audio_ok() {
             case "$codec" in mp3|ac3|pcm_s16le|pcm_s24le) return 0 ;; esac ;;
         mpg|mpeg|vob)
             case "$codec" in mp2|mp3|ac3|pcm_s16le) return 0 ;; esac ;;
-        flv|f4v)
+        flv)
             case "$codec" in aac|mp3) return 0 ;; esac ;;
         wmv|asf)
             case "$codec" in wmav2|wmav1|mp3) return 0 ;; esac ;;

@@ -222,6 +222,8 @@ start_recording() {
         *"Somente Som"|*"Only Sound")
             lock_pipewire_rate
             start_keepalive_silence "$REAL_SINK"
+            # REC_COMMAND/REC_OPTS são listas de argumentos por design (env)
+            # shellcheck disable=SC2086
             $REC_COMMAND $REC_OPTS --audio --audio-device "${REAL_SINK}.monitor" -f "$FILEPATH" &
             MSG="Recording: System Audio"
             ;;
@@ -239,10 +241,12 @@ start_recording() {
                 exit 1
             fi
 
+            # shellcheck disable=SC2086
             $REC_COMMAND $REC_OPTS --audio --audio-device "${COMBINED_SINK_NAME}.monitor" -f "$FILEPATH" &
             MSG="Recording: Mic + System Audio"
             ;;
         *"Sem Som"|*"No Sound")
+            # shellcheck disable=SC2086
             $REC_COMMAND $REC_OPTS -f "$FILEPATH" &
             MSG="Gravando: Sem Som"
             ;;

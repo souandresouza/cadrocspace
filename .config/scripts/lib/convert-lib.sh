@@ -485,9 +485,9 @@ summarize_results() {
     done
 
     if ((total < expected)); then
-        local missing=$((expected - total))
-        failures=$((failures + missing))
-        warn "$missing arquivo(s) não reportaram status (processo interrompido?)"
+        local missing_count=$((expected - total))
+        failures=$((failures + missing_count))
+        warn "$missing_count arquivo(s) não reportaram status (processo interrompido?)"
     fi
 
     local extra=""

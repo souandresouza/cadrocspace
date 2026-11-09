@@ -20,7 +20,8 @@ detect_resolution() {
     local res=""
 
     if command -v hyprctl &>/dev/null && command -v jq &>/dev/null; then
-        local hypr_output=$(hyprctl monitors -j 2>/dev/null 2>&1)
+        local hypr_output
+        hypr_output=$(hyprctl monitors -j 2>/dev/null 2>&1)
         if [[ -n "$hypr_output" ]] && echo "$hypr_output" | jq -e . >/dev/null 2>&1; then
             res=$(echo "$hypr_output" | jq -r '.[] | select(.focused == true) | "\(.width)x\(.height)"' 2>/dev/null | head -1)
         fi
@@ -31,7 +32,7 @@ detect_resolution() {
     fi
 
     if [[ -z "$res" ]] && command -v xrandr &>/dev/null; then
-        res=$(xrandr --current 2>/dev/null | grep '*' | head -1 | awk '{print $1}')
+        res=$(xrandr --current 2>/dev/null | grep -F '*' | head -1 | awk '{print $1}')
     fi
 
     echo "${res:-1920x1080}"

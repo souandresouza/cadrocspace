@@ -1,0 +1,19 @@
+# Configuração do ShellCheck para este repositório.
+#
+# Desativados por serem falsos positivos estruturais daqui:
+# - SC1090/SC1091: vários scripts fazem "source" de caminhos dinâmicos/relativos
+#   (ex.: wal/colors.sh gerado em tempo de execução), que o ShellCheck não segue.
+# - SC2016: expressões literais de jq/awk/ffmpeg dentro de aspas simples devem
+#   mesmo ficar sem expansão; é intencional.
+# - SC2034: variáveis de paleta/tema são definidas em um script e consumidas por
+#   outros via source (convert-lib.sh, IMG_W/IMG_H etc.).
+# - SC2154: variáveis de cor (color0..color15) vêm dos arquivos gerados/editados
+#   que o ShellCheck não segue.
+disable=SC1090
+disable=SC1091
+disable=SC2016
+disable=SC2034
+disable=SC2154
+# SC2004: subscritos de array associativo (ex.: CONVERT_RESERVED[$out]) não são
+# contexto aritmético; o "$" é necessário para expandir a chave.
+disable=SC2004

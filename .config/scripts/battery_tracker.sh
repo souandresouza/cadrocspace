@@ -56,7 +56,7 @@ while true; do
                 done
                 
                 DURATION=$(( $(date +%s) - $(date -d "$SESSION_START" +%s) ))
-                log_event "🔌 Reconectado após $(($DURATION/60)) minutos $(($DURATION%60)) segundos de uso"
+                log_event "🔌 Reconectado após $((DURATION/60)) minutos $((DURATION%60)) segundos de uso"
                 SESSION_START=""
             fi
             ;;
@@ -65,7 +65,7 @@ while true; do
             # Fim do ciclo de descarga (se existia um)
             if [ -n "$SESSION_START" ]; then
                 DURATION=$(( $(date +%s) - $(date -d "$SESSION_START" +%s) ))
-                log_event "⚡ Conectado - Bateria em ${CHARGE}% (descarga durou $(($DURATION/60))min)"
+                log_event "⚡ Conectado - Bateria em ${CHARGE}% (descarga durou $((DURATION/60))min)"
                 SESSION_START=""
             fi
             ;;

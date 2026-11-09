@@ -46,7 +46,7 @@ draw() {
 
   # Conta Flatpaks
   if command -v flatpak &> /dev/null; then
-      FLATPAK=$(flatpak list --columns=application | tail -n +1 | grep -v "Application ID" | wc -l)
+      FLATPAK=$(flatpak list --columns=application | grep -vc "Application ID")
   else
       FLATPAK=0
   fi
@@ -75,6 +75,6 @@ draw() {
 
 while true; do
   draw
-  read -t 0.2 -n 1 key
+  read -r -t 0.2 -n 1 key
   [[ "$key" == "q" ]] && break
 done

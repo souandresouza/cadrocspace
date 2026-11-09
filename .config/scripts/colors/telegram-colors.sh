@@ -49,7 +49,7 @@ exit_abnormal(){
   exit 1
 }
 
-script_dir=$(readlink -f ${0} | sed "s#/$(basename ${0})##")
+script_dir=$(readlink -f "$0" | sed "s#/$(basename "$0")##")
 
 # shellcheck source=/dev/null
 command -v zip > /dev/null || (printf '%b\n' "\\e[1;31m::\\e[0m \\e[1;37mA zipping utility is needed for this script, consider installing zip or gzip\\e[0m" && exit 77)
@@ -71,8 +71,9 @@ else
   }
 fi
 
-options=$(getopt -o hwtp:b:d:gr --long help,wal,tiled,palette:,background:,destination:,gaussian-blur:,restart -- "$@")
-if [ $? != 0 ] ; then exit_abnormal; fi
+if ! options=$(getopt -o hwtp:b:d:gr --long help,wal,tiled,palette:,background:,destination:,gaussian-blur:,restart -- "$@"); then
+    exit_abnormal
+fi
 eval set -- "$options"
 
 while true; do
@@ -322,6 +323,8 @@ create_palette() {
 
         while [ "$filesize" -ge 1000000 ]; do
             quality=$(( quality - 5 ))
+            # blur vazio precisa sumir do comando (não virar argumento vazio)
+            # shellcheck disable=SC2086
             _convert "${bg_mode}.${bg_ext}" $blur -resize "$(( img_size > screen_size ? img_size : screen_size ))" -quality "$quality" "${bg_mode}_tmp.jpg"
             filesize=$(_identify -format "%B" "${bg_mode}_tmp.jpg")
         done
