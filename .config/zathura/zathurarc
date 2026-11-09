@@ -12,21 +12,21 @@ set zoom-min 10
 set guioptions "s"
 
 set font "inconsolata 15"
-set default-bg "#0e0f0d"
-set default-fg "#9eaea8"
+set default-bg "#0b0f17"
+set default-fg "#8faadc"
 
-set statusbar-fg "#9eaea8"
-set statusbar-bg "#0e0f0d"
+set statusbar-fg "#8faadc"
+set statusbar-bg "#0b0f17"
 
-set inputbar-bg "#0e0f0d"
-set inputbar-fg "#41605c"
+set inputbar-bg "#0b0f17"
+set inputbar-fg "#c57241"
 
-set highlight-color "#d3dad280"
-set highlight-active-color "#52716b80"
+set highlight-color "#19315e80"
+set highlight-active-color "#111e3780"
 
 set recolor true
-set recolor-lightcolor "#9eaea8"
-set recolor-darkcolor "#0e0f0d"
+set recolor-lightcolor "#8faadc"
+set recolor-darkcolor "#0b0f17"
 set recolor-reverse-video true
 #set recolor-keephue true
 

@@ -2,23 +2,23 @@
 
 gradient = 1
 gradient_count = 8
-gradient_color_1 = '0e0f0d'
-gradient_color_2 = 'a1b3a5'
-gradient_color_3 = 'd3dad2'
-gradient_color_4 = '5b7348'
-gradient_color_5 = '52716b'
-gradient_color_6 = '41605c'
-gradient_color_7 = '2b3826'
-gradient_color_8 = '9eaea8'
+gradient_color_1 = '0b0f17'
+gradient_color_2 = '2f2b35'
+gradient_color_3 = '19315e'
+gradient_color_4 = '0c1018'
+gradient_color_5 = '111e37'
+gradient_color_6 = 'c57241'
+gradient_color_7 = '182d55'
+gradient_color_8 = '8faadc'
 
 horizontal_gradient = 1
 horizontal_gradient_count = 8
-horizontal_gradient_color_1 = '6e7975'
-horizontal_gradient_color_2 = 'a1b3a5'
-horizontal_gradient_color_3 = 'd3dad2'
-horizontal_gradient_color_4 = '5b7348'
-horizontal_gradient_color_5 = '52716b'
-horizontal_gradient_color_6 = '41605c'
-horizontal_gradient_color_7 = '2b3826'
-horizontal_gradient_color_8 = '9eaea8'
+horizontal_gradient_color_1 = '64769a'
+horizontal_gradient_color_2 = '2f2b35'
+horizontal_gradient_color_3 = '19315e'
+horizontal_gradient_color_4 = '0c1018'
+horizontal_gradient_color_5 = '111e37'
+horizontal_gradient_color_6 = 'c57241'
+horizontal_gradient_color_7 = '182d55'
+horizontal_gradient_color_8 = '8faadc'
 
