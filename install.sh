@@ -117,14 +117,14 @@ regenerate_lists() {
     {
         echo "# Pacotes oficiais explícitos (baseado em: pacman -Qenq)."
         echo "# Instalados por: ./install.sh --pacman"
-        pacman -Qenq | sort
+        pacman -Qenq | LC_ALL=C sort
     } > "$PACMAN_LIST"
 
     log "Regenerando lista_aur.txt..."
     {
         echo "# Pacotes AUR explícitos (baseado em: pacman -Qemq)."
         echo "# Instalados por: ./install.sh --aur"
-        pacman -Qemq | sort
+        pacman -Qemq | LC_ALL=C sort
     } > "$AUR_LIST"
 
     log "Listas atualizadas:"
@@ -304,7 +304,7 @@ ensure_cargo() {
 # com "Unhandled parent window type". Desabilitar o picker do portal faz o
 # Firefox usar o diálogo GTK nativo.
 install_firefox() {
-    local root base prefs_dir changed=0
+    local root prefs_dir changed=0
 
     if [[ "$DRY_RUN" -eq 1 ]]; then
         log "Aplicaria widget.use-xdg-desktop-portal.file-picker=0 nos perfis do Firefox"

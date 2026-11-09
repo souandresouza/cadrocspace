@@ -12,9 +12,7 @@ if ! GEOMETRY=$(slurp -d 2>/dev/null); then
     exit 0
 fi
 
-grim -g "$GEOMETRY" -t ppm - | satty --filename - --output-filename "$OUTPUT"
-
-if [ $? -eq 0 ]; then
+if grim -g "$GEOMETRY" -t ppm - | satty --filename - --output-filename "$OUTPUT"; then
     notify-send "Screenshot salvo!" "📸 $OUTPUT"
 else
     notify-send "Erro!" "Falha ao salvar screenshot" --urgency=critical
