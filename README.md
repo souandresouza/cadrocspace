@@ -277,6 +277,7 @@ de repetir qualquer um. O ciclo fica em
 | `SUPER+Return` | Kitty |
 | `SUPER+E` | cadrocfile (opcional) |
 | `SUPER+B` | Brave |
+| `SUPER+SHIFT+B` | Firefox (opcional) |
 | `SUPER+Space` | Fuzzel |
 | `SUPER+T` | Telegram |
 | `SUPER+W` | btop |
