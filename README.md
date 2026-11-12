@@ -266,9 +266,9 @@ Se preferir o **pywal** (também opcional):
 PALETTE_TOOL=wal ~/.config/scripts/run-scripts.sh
 ```
 
-Sem ruwall/pywal, os arquivos de cor versionados continuam valendo como
-fallback e o `random-wallpaper.sh` ainda troca o papel de parede, mas não
-regenera a paleta.
+Sem ruwall/pywal, os arquivos de `defaults/` continuam valendo como fallback
+(semeados pelo `deploy.sh`) e o `random-wallpaper.sh` ainda troca o papel de
+parede, mas não regenera a paleta.
 
 O `random-wallpaper.sh` (`SUPER+H`) percorre todos os wallpapers da pasta antes
 de repetir qualquer um. O ciclo fica em
