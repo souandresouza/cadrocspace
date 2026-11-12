@@ -15,24 +15,23 @@ HISTORY_SIZE=10
 # FUNÇÕES
 # ============================================
 
-# Detecta resolução da tela
+# Detecta resolução da tela do monitor em foco.
+# 1) mmsg (IPC do mangowm) — fonte canônica; 2) wlr-randr — qualquer wlroots.
 detect_resolution() {
     local res=""
 
-    if command -v hyprctl &>/dev/null && command -v jq &>/dev/null; then
-        local hypr_output
-        hypr_output=$(hyprctl monitors -j 2>/dev/null 2>&1)
-        if [[ -n "$hypr_output" ]] && echo "$hypr_output" | jq -e . >/dev/null 2>&1; then
-            res=$(echo "$hypr_output" | jq -r '.[] | select(.focused == true) | "\(.width)x\(.height)"' 2>/dev/null | head -1)
+    if command -v mmsg &>/dev/null && command -v jq &>/dev/null; then
+        local mango_output
+        mango_output=$(mmsg get all-monitors 2>/dev/null) || mango_output=""
+        if [[ -n "$mango_output" ]] && echo "$mango_output" | jq -e . >/dev/null 2>&1; then
+            res=$(echo "$mango_output" |
+                jq -r '(.monitors | map(select(.active)) | .[0]) // .monitors[0] | "\(.width)x\(.height)"' 2>/dev/null |
+                head -1)
         fi
     fi
 
     if [[ -z "$res" ]] && command -v wlr-randr &>/dev/null; then
         res=$(wlr-randr 2>/dev/null | grep -oP 'current mode: \K\d+x\d+' | head -1)
-    fi
-
-    if [[ -z "$res" ]] && command -v xrandr &>/dev/null; then
-        res=$(xrandr --current 2>/dev/null | grep -F '*' | head -1 | awk '{print $1}')
     fi
 
     echo "${res:-1920x1080}"

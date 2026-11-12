@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 
-# Conta-gotas de cor com hyprpicker.
-# A notificação com preview fica aqui; a aplicação da cor como destaque do
-# tema usa os utilitários em ~/.local/bin (apply_style.sh/gen_style.sh).
+# Conta-gotas de cor com grim + slurp (wlroots, funciona no mangowm).
+# Sem dependência de pacotes do ecossistema Hyprland.
+# A notificação com preview fica aqui; o tema continua sendo gerado pelo
+# pipeline de paleta em ~/.config/scripts/run-scripts.sh.
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     cat <<'USAGE'
 Usage: color_picker.sh [-hex|-rgb|-hsv] [--apply]
-Pick a color with hyprpicker and show it in a notification.
+Pick a color from the screen and show it in a notification.
 
 Options:
     -hex          Report the color as HEX (default)
     -rgb          Report the color as rgb(r,g,b)
-    -hsv          Report the color as hsv(h,s,v)
-    --apply       Apply the picked color as the desktop accent color
+    -hsv          Report the color as hsv(h,s%,v%)
+    --apply       Re-render the current theme (palette comes from the wallpaper)
     -h, --help    Show this help message
 USAGE
     exit 0
@@ -29,7 +30,6 @@ while [[ $# -gt 0 ]]; do
         -hsv) FORMAT="hsv" ;;
         --apply) APPLY=true ;;
         -h|--help)
-            # o bloco de ajuda acima já cobre este caso
             sed -n '2,20p' "$0" >&2
             exit 0
             ;;
@@ -41,52 +41,77 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-# Dependências
-for cmd in hyprpicker wl-paste notify-send; do
-    command -v "$cmd" >/dev/null 2>&1 || {
-        echo "$cmd is not installed. Please install it to use this script." >&2
-        notify-send "Color picker" "$cmd is not installed" -i dialog-error 2>/dev/null || true
-        exit 1
-    }
+missing=()
+for cmd in grim slurp magick wl-copy; do
+    command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
 done
+if ((${#missing[@]} > 0)); then
+    msg="Faltando: ${missing[*]} (pacotes: grim, slurp, imagemagick, wl-clipboard)"
+    echo "color_picker: $msg" >&2
+    notify-send "Color picker" "$msg" -i dialog-error 2>/dev/null || true
+    exit 1
+fi
 
-# hyprpicker escreve o valor no clipboard com -a -n
-hyprpicker -a -n -f "$FORMAT" || exit 1
-sleep 0.1
-color="$(wl-paste)"
-[[ -n "$color" ]] || exit 1
+# Escolhe um pixel e devolve o hex (sem '#').
+pick_hex() {
+    local geom hex
+    # grim espera "X,Y WxH" (o mesmo formato que o slurp imprime por padrão)
+    geom=$(slurp -p -f '%x,%y %wx%h') || return 1
+    hex=$(grim -g "$geom" -t png - 2>/dev/null |
+        magick png:- -format '%[hex:p{0,0}]' info: 2>/dev/null) || return 1
+    [[ -n "$hex" ]] && printf '%s\n' "$hex"
+}
+
+color="$(pick_hex)" || exit 1
+color="${color#\#}"
+color="${color,,}"
+[[ "$color" =~ ^[0-9a-f]{6}$ ]] || {
+    notify-send "Color picker" "Não foi possível ler a cor" -i dialog-error 2>/dev/null || true
+    exit 1
+}
+
+r=$((16#${color:0:2}))
+g=$((16#${color:2:2}))
+b=$((16#${color:4:2}))
+
+case "$FORMAT" in
+    rgb) value="rgb($r,$g,$b)" ;;
+    hsv) value=$(awk -v r="$r" -v g="$g" -v b="$b" 'BEGIN {
+            r /= 255; g /= 255; b /= 255
+            mx = r; if (g > mx) mx = g; if (b > mx) mx = b
+            mn = r; if (g < mn) mn = g; if (b < mn) mn = b
+            d = mx - mn
+            if (d == 0) h = 0
+            else if (mx == r) h = 60 * (((g - b) / d) % 6)
+            else if (mx == g) h = 60 * (((b - r) / d) + 2)
+            else h = 60 * (((r - g) / d) + 4)
+            if (h < 0) h += 360
+            s = (mx == 0) ? 0 : d / mx
+            printf "hsv(%d,%d%%,%d%%)\n", h + 0.5, s * 100 + 0.5, mx * 100 + 0.5
+        }') ;;
+    *) value="$color" ;;
+esac
+
+printf '%s' "$value" | wl-copy -n
 
 # Preview da cor como ícone da notificação
 preview="/tmp/color-picker-preview.png"
 if command -v magick >/dev/null 2>&1; then
-    case "$FORMAT" in
-        rgb) magick -size 64x64 xc:"rgb($color)" "$preview" 2>/dev/null ;;
-        hsv) magick -size 64x64 xc:"hsv($color)" "$preview" 2>/dev/null ;;
-        *)   magick -size 64x64 xc:"$color" "$preview" 2>/dev/null ;;
-    esac
+    magick -size 64x64 "xc:#$color" "$preview" 2>/dev/null || preview=""
 fi
 
 if $APPLY; then
-    [[ "$FORMAT" == "hex" ]] || {
-        hex=$(magick "$preview" -format '%[hex:p{0,0}]' info: 2>/dev/null)
-        color="${hex:-$color}"
-    }
-    # pywal nao tem modo "paleta a partir de uma cor solida" (o -c dele limpa o
-    # cache), entao o --apply nao pode regerar o tema. Fica como na era pywal:
-    # reaplica o estilo atual (recarga apps/fonte via apply_style.sh) sem
-    # prometer mudanca de paleta.
-    if [[ -f "$HOME/.local/bin/gen_style.sh" ]]; then
-        "$HOME/.local/bin/gen_style.sh" "$color" || true
-    fi
-    if [[ -x "$HOME/.local/bin/apply_style.sh" ]]; then
-        "$HOME/.local/bin/apply_style.sh"
-    fi
-    rm -f "$preview"
+    # O accent sai da paleta do wallpaper (regra do cadroc-colors.sh); não há
+    # modo "cor solta". Então --apply apenas re-renderiza o tema atual.
+    "$HOME/.config/scripts/run-scripts.sh" || true
+    [[ -n "$preview" ]] && rm -f "$preview"
     exit 0
 fi
 
 [[ "$FORMAT" == "hex" ]] && label="HEX" || label="${FORMAT^^}"
-notify-send -t 5000 "$label color picked" "$color" -i "$preview" -a "Color picker"
-rm -f "$preview"
+notify_args=(-t 5000 "$label color picked" "$value" -a "Color picker")
+[[ -n "$preview" ]] && notify_args+=(-i "$preview")
+notify-send "${notify_args[@]}" 2>/dev/null || true
+[[ -n "$preview" ]] && rm -f "$preview"
 
-echo "$color"
+echo "$value"
