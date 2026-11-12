@@ -48,4 +48,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ### Corrigido
 
+- `scripts/colors/telegram-colors.sh`: remoção do `xrandr` (X11) no cálculo do
+  tamanho do fundo — usa `mmsg get all-monitors`; e ImageMagick 7 chamado como
+  `magick`/`magick identify` (sem o verbo `convert` depreciado).
 - `scripts/color_picker.sh`: `--apply` apontava para `gen_style.sh`/`apply_style.sh`, que não existem mais; agora dispara `run-scripts.sh` (reaplica o tema a partir do wallpaper atual).

@@ -57,7 +57,7 @@ command -v zip > /dev/null || (printf '%b\n' "\\e[1;31m::\\e[0m \\e[1;37mA zippi
 # do we have 'magick'
 if command -v magick >/dev/null; then
   _convert() {
-    magick convert "$@"
+    magick "$@"
   }
   _identify() {
     magick identify "$@"
@@ -313,7 +313,9 @@ create_palette() {
         _convert -size 256x256 "xc:$color0" tiled.jpg;
     elif [[ "$bg_mode" = "background" ]]; then
         img_size=$(_identify -format "%w" "${bg_mode}.${bg_ext}")
-        screen_size=$(xrandr | grep -P '(?<=connected)' | grep -oP '\d+x\d+\+\d+\+\d+' | sed 's/x/+/g' | awk -F '+' '{print $1}' | sort -ur | head -n 1)
+        # Maior largura entre os monitores, via IPC do mango (sem xrandr/X11).
+        screen_size=$(mmsg get all-monitors 2>/dev/null | jq -r '[.monitors[].width] | max // empty' 2>/dev/null)
+        [[ -n "$screen_size" ]] || screen_size=1920
         # shellcheck disable=SC2086
         _convert ${bg_mode}.${bg_ext} $blur -resize $(( img_size > screen_size ? img_size : screen_size )) ${bg_mode}_tmp.jpg
 
