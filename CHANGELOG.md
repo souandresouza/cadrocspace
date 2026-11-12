@@ -44,9 +44,9 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ### Removido
 
+- `.config/mango/rule.conf`: removida a `window_rule` de `app_id:obs` (OBS fora do escopo).
 - `VIABILIDADE.md` saiu do repositório: era um documento interno de avaliação,
   não parte do projeto publicado. O conteúdo permanece no histórico do git.
-
 - Dependência de `hyprpicker` no conta-gotas; a stack não tem mais nada de Hyprland.
 
 ### Corrigido
