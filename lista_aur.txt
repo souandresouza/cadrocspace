@@ -1,5 +1,3 @@
-# Pacotes AUR explícitos (baseado em: pacman -Qemq).
-# Instalados por: ./install.sh --aur
 brave-bin
 lavat-git
 localsend
