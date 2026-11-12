@@ -7,10 +7,6 @@ Fuzzel, Kitty e os scripts de apoio usados no dia a dia.
 O repositório cobre as configurações principais do ambiente mangowm — não
 apenas `~/.config/mango`.
 
-> Inspirado na ideia do [Omarchy](https://omarchy.org) (Arch + Hyprland, MIT):
-> **sem afiliação com ele**, sem usar sua marca e **sem Quickshell**. A shell
-> aqui é Waybar + Fuzzel + SwayNC + swaylock/swayidle.
->
 > **cadrocfile e ruwall são opcionais.** O `install.sh` padrão não instala
 > nenhum dos dois. Veja as seções específicas mais abaixo.
 

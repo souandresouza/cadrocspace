@@ -114,8 +114,8 @@ apoiada em uso real: o próprio autor já manteve uma barra em Quickshell
 | Config hoje é pessoal (2 monitores específicos, `polkit-kde`, caminhos) | alta | alto | camada de variáveis + detecção no deploy |
 | Arquivos gerados versionados (`colors-*.css/conf/ini`) geram drift | certa | médio | `.gitignore` + gerar no deploy |
 | Manutenção solo (bus factor 1) | certa | médio | docs de decisão, CHANGELOG, testes em VM |
-| Expectativa de "clone do Omarchy" | média | médio | README explícito: inspiração, não afiliação; sem Quickshell |
-| Marca | baixa | baixo | nome próprio já usado; crédito ao Omarchy (MIT) |
+| Expectativa de "clone" | média | médio | README descreve o Cadroc pelo que ele é, sem citar a marca de origem |
+| Marca | baixa | baixo | nome próprio já usado; o repo não cita nem usa marca de terceiros |
 
 ## 7. Custos (cenário B, revisados)
 
@@ -141,8 +141,8 @@ apoiada em uso real: o próprio autor já manteve uma barra em Quickshell
    do wallpaper/paleta, e `check.sh` valida.
 
 **Licenciamento:** repo MIT (igual `cadrocfile`/`ruwall`); MangoWC é GPL-3.0 e
-**não** é vendorizado nem forkado; temas inspirados no Omarchy (MIT) com crédito
-e aviso de não afiliação; nenhuma marca do Omarchy em nome/logo/domínio.
+**não** é vendorizado nem forkado; nenhuma marca de terceiros em nome, logo,
+domínio ou documentos públicos.
 
 ## 9. Perguntas em aberto (para decidir o escopo)
 

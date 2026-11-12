@@ -13,7 +13,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 - `scripts/detect-monitors.sh`: gera `monitor_rule` a partir do `wlr-randr`.
 - `scripts/polkit-agent.sh`: inicia o primeiro agente polkit disponível
   (KDE, GNOME, MATE, XFCE).
-- `CHANGELOG.md` e aviso no README sobre inspiração no Omarchy (sem afiliação, sem Quickshell).
+- `CHANGELOG.md` para registrar as mudanças do projeto.
 - Limpeza de 2026-11-11 no `deploy.sh`/`install.sh`: nome do projeto e cache passam a ser `cadrocspace`.
 
 ### Portabilidade
