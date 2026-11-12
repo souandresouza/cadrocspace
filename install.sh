@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# install.sh -- instala os pacotes do mango-dotfiles
+# install.sh -- instala os pacotes do Cadroc
 # =============================================================================
 #
 # Uso:

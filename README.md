@@ -1,12 +1,16 @@
-# mango-dotfiles
+# Cadroc
 
-Configuração do compositor Wayland **[mangowm](https://github.com/DreamMaoMao/mango)**
+Setup pessoal para o compositor Wayland **[mangowm](https://github.com/DreamMaoMao/mango)**
 no **Arch Linux puro (rolling)**, com Waybar, SwayNC, Swaylock, Swayidle,
 Fuzzel, Kitty e os scripts de apoio usados no dia a dia.
 
 O repositório cobre as configurações principais do ambiente mangowm — não
 apenas `~/.config/mango`.
 
+> Inspirado na ideia do [Omarchy](https://omarchy.org) (Arch + Hyprland, MIT):
+> **sem afiliação com ele**, sem usar sua marca e **sem Quickshell**. A shell
+> aqui é Waybar + Fuzzel + SwayNC + swaylock/swayidle.
+>
 > **cadrocfile e ruwall são opcionais.** O `install.sh` padrão não instala
 > nenhum dos dois. Veja as seções específicas mais abaixo.
 
@@ -19,7 +23,7 @@ apenas `~/.config/mango`.
 ## Estrutura
 
 ```
-mango-dotfiles/
+cadrocspace/
 ├── install.sh              # Instala pacotes das listas (oficial + AUR)
 ├── deploy.sh               # Copia configs/scripts do repo para ~/.config
 ├── check.sh                # Valida sintaxe dos scripts (.sh)
@@ -95,8 +99,8 @@ sudo pacman -S --needed base-devel git curl rsync
 Clone o repositório e instale:
 
 ```sh
-git clone https://github.com/souandresouza/mango-dotfiles.git ~/mango-dotfiles
-cd ~/mango-dotfiles
+git clone https://github.com/souandresouza/cadrocspace.git ~/cadrocspace
+cd ~/cadrocspace
 
 ./install.sh --dry-run   # confira as listas
 ./install.sh             # instala pacotes oficiais + AUR
@@ -134,7 +138,7 @@ git add -A && git commit -m "..."
 ```
 
 Backups dos arquivos substituídos ficam em
-`~/.cache/mango-dotfiles/backups/<timestamp>/`.
+`~/.cache/cadrocspace/backups/<timestamp>/`.
 
 ## Ajustes que você provavelmente precisa fazer
 
@@ -275,7 +279,7 @@ mangowm continua normal.
 Instalação pelo repositório:
 
 ```sh
-cd ~/mango-dotfiles
+cd ~/cadrocspace
 ./install.sh --cadrocfile
 ```
 
@@ -302,7 +306,7 @@ compilar o ruwall, use o `pywal` com `PALETTE_TOOL=wal`.
 Instalação pelo repositório:
 
 ```sh
-cd ~/mango-dotfiles
+cd ~/cadrocspace
 ./install.sh --ruwall
 ```
 

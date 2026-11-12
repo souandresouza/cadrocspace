@@ -12,7 +12,7 @@
 #   ./deploy.sh --help       Ajuda
 #
 # Não usa symlinks: os arquivos são copiados. Backups dos arquivos substituídos
-# ficam em ~/.cache/mango-dotfiles/backups/<timestamp>/.
+# ficam em ~/.cache/cadrocspace/backups/<timestamp>/.
 #
 # --pull copia apenas os diretórios gerenciados, exceto wallpapers pessoais:
 # de ~/.config/wallpapers só o default-dark.png é versionado.
@@ -22,7 +22,7 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
-CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/mango-dotfiles"
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/cadrocspace"
 TARGETS=(
     mango scripts swayidle wallpapers
     cava fastfetch fuzzel kitty swaylock swaync waybar zathura
