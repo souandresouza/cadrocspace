@@ -14,6 +14,10 @@
 # Não usa symlinks: os arquivos são copiados. Backups dos arquivos substituídos
 # ficam em ~/.cache/cadrocspace/backups/<timestamp>/.
 #
+# Arquivos de tema gerados (cores do wallpaper) nunca são copiados do repo nem
+# voltam no --pull; quando faltam em ~/.config são semeados a partir de
+# defaults/, e --generate os regenera com a paleta atual.
+#
 # --pull copia apenas os diretórios gerenciados, exceto wallpapers pessoais:
 # de ~/.config/wallpapers só o default-dark.png é versionado.
 # =============================================================================
@@ -28,19 +32,56 @@ TARGETS=(
     cava fastfetch fuzzel kitty swaylock swaync waybar zathura
 )
 
+# Arquivos de tema gerados a partir do wallpaper (run-scripts.sh).
+# A fonte versionada fica em defaults/<app>/<arquivo>. O deploy nunca os copia
+# do repo nem os traz de volta no --pull; se faltarem em ~/.config, são
+# semeados a partir de defaults/ para o ambiente funcionar sem paleta.
+GENERATED=(
+    mango/theme.conf
+    mango/waybar.jsonc
+    mango/monitor.conf
+    waybar/colors-waybar.css
+    swaync/colors-swaync.css
+    fuzzel/colors-fuzzel.ini
+    kitty/colors-kitty.conf
+    swaylock/config
+    zathura/zathurarc
+    cava/themes/colors
+)
+
+DEFAULTS_DIR="$REPO_DIR/defaults"
+
 MODE="push"
 DRY_RUN=0
 GENERATE=0
 PRUNE=0
 
 usage() {
-    sed -n '2,19p' "${BASH_SOURCE[0]}" | sed 's/^#//'
+    sed -n '2,23p' "${BASH_SOURCE[0]}" | sed 's/^#//'
     exit 0
 }
 
 log() { printf '[deploy.sh] %s\n' "$*"; }
 warn() { printf '[deploy.sh] AVISO: %s\n' "$*" >&2; }
 err() { printf '[deploy.sh] ERRO: %s\n' "$*" >&2; exit 1; }
+
+# Monta os --exclude do rsync para os arquivos gerados de um alvo.
+generated_excludes() {
+    local name="$1" rel
+    for rel in "${GENERATED[@]}"; do
+        if [[ "$rel" == "$name/"* ]]; then
+            printf '%s\0' "--exclude=/${rel#"$name/"}"
+        fi
+    done
+}
+
+# Devolve em stdout os argumentos de exclusão já separados em linhas NUL.
+collect_generated_excludes() {
+    local name="$1" arg
+    while IFS= read -r -d '' arg; do
+        GEN_ARGS+=("$arg")
+    done < <(generated_excludes "$name")
+}
 
 while (($#)); do
     case "$1" in
@@ -70,8 +111,10 @@ push_target() {
     local name="$1"
     local src="$REPO_DIR/.config/$name"
     local dst="$CONFIG_DIR/$name"
+    local -a GEN_ARGS=()
 
     [[ -d "$src" ]] || { warn "Origem não encontrada, ignorando: $src"; return; }
+    collect_generated_excludes "$name"
 
     # Remove symlink antigo para nunca escrever dentro do repo.
     if [[ -L "$dst" ]]; then
@@ -89,7 +132,7 @@ push_target() {
         err "$dst existe e não é um diretório"
     fi
 
-    local args=(-a --backup --backup-dir="$BACKUP_ROOT/$name" --itemize-changes)
+    local args=(-a "${GEN_ARGS[@]}" --backup --backup-dir="$BACKUP_ROOT/$name" --itemize-changes)
     [[ "$DRY_RUN" -eq 1 ]] && args+=(-n)
     # wallpapers nunca são podados: a pasta pode conter imagens pessoais.
     [[ "$PRUNE" -eq 1 && "$name" != "wallpapers" ]] && args+=(--delete)
@@ -107,8 +150,10 @@ pull_target() {
     local name="$1"
     local src="$CONFIG_DIR/$name"
     local dst="$REPO_DIR/.config/$name"
+    local -a GEN_ARGS=()
 
     [[ -d "$src" ]] || { warn "Origem não encontrada, ignorando: $src"; return; }
+    collect_generated_excludes "$name"
 
     # Só o wallpaper padrão é versionado; os demais são pessoais.
     if [[ "$name" == "wallpapers" ]]; then
@@ -126,7 +171,7 @@ pull_target() {
         return
     fi
 
-    local args=(-a --itemize-changes
+    local args=(-a "${GEN_ARGS[@]}" --itemize-changes
         --exclude='*.bak-*' --exclude='*~' --exclude='*.tmp')
     [[ "$DRY_RUN" -eq 1 ]] && args+=(-n)
     [[ "$DRY_RUN" -eq 0 ]] && mkdir -p "$dst"
@@ -154,6 +199,26 @@ generate_theme() {
     fi
 }
 
+# Semeia os arquivos gerados que faltarem, a partir de defaults/. Assim um
+# clone novo tem tema funcional mesmo antes da primeira geração de paleta.
+seed_generated() {
+    local rel src dst
+    for rel in "${GENERATED[@]}"; do
+        src="$DEFAULTS_DIR/$rel"
+        dst="$CONFIG_DIR/$rel"
+        [[ -f "$src" ]] || { warn "Default ausente: $src"; continue; }
+        [[ -e "$dst" ]] && continue
+
+        if [[ "$DRY_RUN" -eq 1 ]]; then
+            log "Semearia default: $rel"
+        else
+            mkdir -p "$(dirname "$dst")"
+            cp -p "$src" "$dst"
+            log "Default semeado: $rel"
+        fi
+    done
+}
+
 for target in "${TARGETS[@]}"; do
     if [[ "$MODE" == "pull" ]]; then
         pull_target "$target"
@@ -162,7 +227,10 @@ for target in "${TARGETS[@]}"; do
     fi
 done
 
-[[ "$GENERATE" -eq 1 && "$MODE" == "push" ]] && generate_theme
+if [[ "$MODE" == "push" ]]; then
+    seed_generated
+    [[ "$GENERATE" -eq 1 ]] && generate_theme
+fi
 
 if [[ "$MODE" == "push" && "$DRY_RUN" -eq 0 && -d "$BACKUP_ROOT" ]]; then
     log "Backups desta execução: $BACKUP_ROOT"

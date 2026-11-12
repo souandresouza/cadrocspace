@@ -11,7 +11,7 @@ set scroll-step 100
 set zoom-min 10
 set guioptions "s"
 
-set font "inconsolata 15"
+set font "JetBrainsMono Nerd Font 12"
 set default-bg "#0b0f17"
 set default-fg "#8faadc"
 

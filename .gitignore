@@ -9,3 +9,16 @@
 # Wallpapers pessoais (só o default-dark.png é versionado)
 .config/wallpapers/*
 !.config/wallpapers/default-dark.png
+
+# Arquivos de tema gerados a partir do wallpaper (run-scripts.sh).
+# A fonte versionada fica em defaults/; o deploy.sh semeia os que faltarem.
+.config/mango/theme.conf
+.config/mango/waybar.jsonc
+.config/mango/monitor.conf
+.config/waybar/colors-waybar.css
+.config/swaync/colors-swaync.css
+.config/fuzzel/colors-fuzzel.ini
+.config/kitty/colors-kitty.conf
+.config/swaylock/config
+.config/zathura/zathurarc
+.config/cava/themes/colors
