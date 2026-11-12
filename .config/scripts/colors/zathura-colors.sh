@@ -3,6 +3,15 @@
 COLORS_FILE="$HOME/.cache/wal/colors.css"
 ZATHURA_FILE=~/.config/zathura/zathurarc
 
+# Usa a mesma fonte do resto do tema (state.env via cadroc_theme.sh).
+THEME_LIB="$HOME/.config/scripts/cadroc_theme.sh"
+if [ -f "$THEME_LIB" ]; then
+    # shellcheck source=/dev/null
+    . "$THEME_LIB"
+fi
+ZFONT="${FONT_FAMILY:-JetBrainsMono Nerd Font}"
+ZSIZE="${FONT_SIZE:-12}"
+
 if [ ! -f "$COLORS_FILE" ]; then
     echo "ERRO: sem paleta em $COLORS_FILE"
     echo "Gere uma com:"
@@ -68,7 +77,7 @@ set scroll-step 100
 set zoom-min 10
 set guioptions "s"
 
-set font "inconsolata 15"
+set font "${ZFONT} ${ZSIZE}"
 set default-bg "${color0}"
 set default-fg "${color7}"
 

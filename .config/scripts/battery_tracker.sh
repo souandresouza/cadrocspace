@@ -1,13 +1,33 @@
 #!/bin/bash
-# Monitor de Bateria para Hyprland/Arch Linux
-# Rastreia ciclo de descarga desde desconexão até 20%
+# Monitor de Bateria para o Cadroc (mango/Arch Linux)
+# Rastreia ciclo de descarga desde desconexão até o limite configurado.
 
-LOG_FILE="$HOME/battery/.battery_history"
-BATDIR="/sys/class/power_supply/BAT1"
-NOTIFYSEND="/usr/bin/notify-send"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/cadrocspace/battery"
+LOG_FILE="$STATE_DIR/history.log"
+NOTIFYSEND="${NOTIFYSEND:-$(command -v notify-send || echo /usr/bin/notify-send)}"
 CHECK_INTERVAL=60  # segundos
 THRESHOLD=15       # porcentagem para notificação
 SESSION_START=""   # timestamp de quando desconectou
+
+# Primeira bateria encontrada (BAT0, BAT1, battery...), sem fixar o nome.
+detect_battery_dir() {
+    local d
+    for d in /sys/class/power_supply/BAT* /sys/class/power_supply/battery; do
+        [[ -d "$d" ]] || continue
+        [[ -e "$d/capacity" || -e "$d/charge_now" || -e "$d/energy_now" ]] || continue
+        printf '%s\n' "$d"
+        return 0
+    done
+    return 1
+}
+
+BATDIR="${CADROC_BATTERY_DIR:-$(detect_battery_dir || true)}"
+if [[ -z "$BATDIR" ]]; then
+    echo "battery_tracker: nenhuma bateria encontrada em /sys/class/power_supply" >&2
+    exit 0
+fi
+
+mkdir -p "$STATE_DIR"
 
 # Funções principais
 get_battery_percentage() {

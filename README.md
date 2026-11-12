@@ -33,14 +33,17 @@ cadrocspace/
 ├── lista_aur.txt           # Pacotes AUR explícitos
 ├── servicos.txt            # Serviços systemd a habilitar
 ├── .bashrc                 # PATH de ~/.local/bin e aliases básicos
+├── defaults/               # Fonte versionada dos arquivos gerados de tema
+│   ├── mango/              # theme.conf, waybar.jsonc, monitor.conf
+│   ├── waybar/ swaync/ fuzzel/ kitty/ swaylock/ zathura/ cava/
 └── .config/
     ├── mango/              # Config do mangowm
-    │   ├── config.conf     # Config principal (layouts, efeitos, monitores)
+    │   ├── config.conf     # Config principal (layouts, efeitos, input)
     │   ├── bind.conf       # Atalhos de teclado e mouse
     │   ├── env.conf        # Variáveis de ambiente da sessão
     │   ├── rule.conf       # Regras de janelas e layer surfaces
-    │   ├── theme.conf      # Cores do mangowm (fallback estático)
-    │   ├── waybar.jsonc    # Waybar com os módulos mango/*
+    │   ├── theme.conf      # Cores do mangowm (gerado; semeado de defaults/)
+    │   ├── waybar.jsonc    # Waybar com os módulos mango/* (gerado; semeado)
     │   ├── emoji-list.txt
     │   └── scripts/        # Scripts exclusivos do mangowm (mango-keys.sh)
     ├── scripts/            # Scripts compartilhados (lock, record, wallpaper, ...)
@@ -57,6 +60,10 @@ cadrocspace/
     ├── kitty/              # Terminal
     └── zathura/            # Leitor de PDF
 ```
+
+`~/.config/mango/monitor.conf` **não** está na árvore: é específico da máquina,
+fica fora do git e é semeado vazio pelo `deploy.sh` (veja
+[Monitores](#monitores)).
 
 ### Organização dos scripts
 
@@ -140,25 +147,81 @@ git add -A && git commit -m "..."
 Backups dos arquivos substituídos ficam em
 `~/.cache/cadrocspace/backups/<timestamp>/`.
 
+## Arquivos gerados de tema
+
+Cores de aplicativos mudam a cada wallpaper, então **não são versionadas**.
+O repositório guarda apenas a fonte em `defaults/`, e o `deploy.sh`:
+
+1. copia as configs normais do repo para `~/.config`;
+2. **semeia** de `defaults/` os arquivos gerados que faltarem (ambiente
+   funcional antes da primeira paleta);
+3. com `--generate`, roda `~/.config/scripts/run-scripts.sh` para renderizar
+   tudo com a paleta do wallpaper atual.
+
+Gerados assim: `mango/theme.conf`, `mango/waybar.jsonc`,
+`mango/monitor.conf`, `waybar/colors-waybar.css`, `swaync/colors-swaync.css`,
+`fuzzel/colors-fuzzel.ini`, `kitty/colors-kitty.conf`, `swaylock/config`,
+`zathura/zathurarc` e `cava/themes/colors`.
+
+Consequências práticas:
+
+- `./deploy.sh --dry-run` para de acusar drift a cada troca de wallpaper.
+- `--pull` **não** traz esses arquivos de volta (eles são saída, não fonte).
+  Para mudar estrutura (ex.: módulos da Waybar), edite a cópia em `defaults/`
+  e rode `./deploy.sh`.
+- Ajustes locais de cor/fonte vão para o estado do tema
+  (`~/.local/state/cadrocspace/state/state.env`) e sobrevivem ao deploy.
+
+## Monitores
+
+As regras de monitor são específicas da máquina e ficam em
+`~/.config/mango/monitor.conf` (fora do git, semeado vazio pelo deploy).
+Sem regras, o mango configura cada saída com o modo preferido.
+
+Para regras explícitas (resolução, taxa, posição, escala), rode:
+
+```sh
+~/.config/scripts/detect-monitors.sh            # mostra as regras
+~/.config/scripts/detect-monitors.sh --write    # grava em monitor.conf
+mmsg dispatch reload_config                     # aplica sem reiniciar
+```
+
+O script lê `wlr-randr` e gera uma linha `monitor_rule=` por monitor
+habilitado. Revise o arquivo antes de aplicar — posições/escala podem precisar
+de ajuste manual. A sintaxe completa está na
+[wiki do mango](https://github.com/mangowm/mango/wiki/monitors).
+
 ## Ajustes que você provavelmente precisa fazer
 
 Alguns valores são específicos do hardware/uso da máquina de origem:
 
-- **Monitores** — em `.config/mango/config.conf`, as regras usam `eDP-1`
-  (1366x768) e `HDMI-A-1` (1920x1080). Ajuste nomes/resoluções com
-  `wlr-randr` ou `mmsg get all-monitors`.
-- **Teclado** — `xkb_rules_layout=br` (Português do Brasil). Troque se
-  necessário.
-- **Bateria** — Waybar e `battery_tracker.sh` usam `BAT1`. Ajuste para o nome
-  da sua bateria em `/sys/class/power_supply/`.
-- **wlsunset** — `.config/scripts/wlsunset.sh` usa Florianópolis como
-  localização fixa. Troque as coordenadas ou use o agente do geoclue.
+- **Monitores** — ficam em `~/.config/mango/monitor.conf` (fora do git). O
+  `deploy.sh` semeia o arquivo vazio e o mango detecta as telas sozinho; para
+  gerar regras explícitas a partir da sessão atual rode
+  `~/.config/scripts/detect-monitors.sh --write` e depois
+  `mmsg dispatch reload_config`. Veja [Monitores](#monitores).
+- **Teclado** — `xkb_rules_layout=br` (Português do Brasil) em `config.conf`.
+  Troque se necessário.
+- **Bateria** — detectada automaticamente (primeira em
+  `/sys/class/power_supply`). Waybar e `battery_tracker.sh` não fixam mais
+  `BAT1`; para forçar outra, use `CADROC_BATTERY_DIR`.
+- **wlsunset** — usa geoclue quando disponível; sem ele, cai em Florianópolis.
+  Ajuste com `WLSUNSET_LAT` / `WLSUNSET_LON` (ou edite `wlsunset.sh`).
+- **Fontes** — o tema usa `JetBrainsMono Nerd Font` (pacote
+  `ttf-jetbrains-mono-nerd`, nas listas). Troque em
+  `~/.local/state/cadrocspace/state/state.env` (`FONT_FAMILY`/`FONT_SIZE`) e
+  rode `~/.config/scripts/run-scripts.sh`.
+- **Polkit** — `polkit-agent.sh` inicia o primeiro agente instalado
+  (KDE, GNOME, MATE ou XFCE), sem depender de um caminho fixo.
 - **Pastas de saída** — screenshots vão para `~/Imagens/Screenshots` e
   gravações para `~/Vídeos`. Crie os diretórios ou edite os scripts.
 - **fcitx5** — `env.conf` define variáveis de IM do fcitx5, mas o pacote não
   está nas listas. Se não usar fcitx5, remova essas linhas ou instale-o.
 - **cadrocfile** — o bind `SUPER+E` chama `cadrocfile`. Se não usar o
   gerenciador (ele é opcional), remova ou troque essa linha em `bind.conf`.
+- **Regras por monitor** — em `rule.conf`, regras de janela que citam
+  `monitor:eDP-1`/`monitor:HDMI-A-1` só valem em máquinas com esses nomes;
+  nas demais, o mango simplesmente ignora a regra e a janela abre onde estiver.
 
 ## Waybar
 
@@ -345,6 +408,8 @@ máquina atual. Revise o resultado antes de commitar.
 ```sh
 ./check.sh               # sh -n / bash -n em todos os scripts
 ./check.sh --shellcheck  # também roda shellcheck (se instalado)
+./check.sh --deps        # confere os comandos usados pela sessão
+./check.sh --all         # sintaxe + shellcheck + dependências
 mango -p -c ~/.config/mango/config.conf   # valida a config do mangowm
 ```
 
