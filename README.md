@@ -405,6 +405,7 @@ máquina atual. Revise o resultado antes de commitar.
 ./check.sh               # sh -n / bash -n em todos os scripts
 ./check.sh --shellcheck  # também roda shellcheck (se instalado)
 ./check.sh --deps        # confere os comandos usados pela sessão
+./check.sh --lists       # confere se os pacotes das listas existem (repos/AUR)
 ./check.sh --all         # sintaxe + shellcheck + dependências
 mango -p -c ~/.config/mango/config.conf   # valida a config do mangowm
 ```

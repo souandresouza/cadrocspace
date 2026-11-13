@@ -6,6 +6,10 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ### Adicionado
 
+- `check.sh --lists`: confere se cada pacote de `lista_pacman.txt` existe nos
+  repos oficiais e se cada um de `lista_aur.txt` existe no AUR (rede
+  necessária; fora do `--all` para não quebrar uso offline). Foi o que pegou o
+  `yay-bin-debug` inexistente.
 - `defaults/`: fonte versionada dos arquivos de tema gerados (cores, waybar,
   monitor) que deixam de ser versionados em `.config`.
 - `deploy.sh`: semeia de `defaults/` os arquivos gerados que faltarem e os
@@ -53,6 +57,9 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ### Corrigido
 
+- `lista_aur.txt`/`install.sh --update-lists`: pacotes `*-debug` de split
+  packages (`yay-bin-debug`) não entram mais nas listas — não existem como
+  entrada no AUR e fariam `install.sh --aur` falhar em máquina limpa.
 - `scripts/colors/telegram-colors.sh`: remoção do `xrandr` (X11) no cálculo do
   tamanho do fundo — usa `mmsg get all-monitors`; e ImageMagick 7 chamado como
   `magick`/`magick identify` (sem o verbo `convert` depreciado).

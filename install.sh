@@ -117,14 +117,16 @@ regenerate_lists() {
     {
         echo "# Pacotes oficiais explícitos (baseado em: pacman -Qenq)."
         echo "# Instalados por: ./install.sh --pacman"
-        pacman -Qenq | LC_ALL=C sort
+        pacman -Qenq | LC_ALL=C sort | grep -v -- '-debug$'
     } > "$PACMAN_LIST"
 
     log "Regenerando lista_aur.txt..."
     {
         echo "# Pacotes AUR explícitos (baseado em: pacman -Qemq)."
         echo "# Instalados por: ./install.sh --aur"
-        pacman -Qemq | LC_ALL=C sort
+        # Pacotes *-debug vêm de split packages (ex.: yay-bin-debug) e não
+        # existem como entrada própria no AUR: instalá-los por nome falha.
+        pacman -Qemq | LC_ALL=C sort | grep -v -- '-debug$'
     } > "$AUR_LIST"
 
     log "Listas atualizadas:"

@@ -12,4 +12,3 @@ wl-screenrec
 wshowkeys-git
 wvkbd
 yay-bin
-yay-bin-debug
