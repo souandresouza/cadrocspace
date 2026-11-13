@@ -48,6 +48,8 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 - `VIABILIDADE.md` saiu do repositório: era um documento interno de avaliação,
   não parte do projeto publicado. O conteúdo permanece no histórico do git.
 - Dependência de `hyprpicker` no conta-gotas; a stack não tem mais nada de Hyprland.
+- Bind `SUPER+SHIFT+B` (Firefox) e as `window_rule` exclusivas do Firefox: o
+  navegador padrão é o Brave, já coberto por `SUPER+B` e pelas regras genéricas.
 
 ### Corrigido
 
