@@ -22,7 +22,8 @@ apenas `~/.config/mango`.
 cadrocspace/
 ├── install.sh              # Instala pacotes das listas (oficial + AUR)
 ├── deploy.sh               # Copia configs/scripts do repo para ~/.config
-├── check.sh                # Valida sintaxe dos scripts (.sh)
+├── check.sh                # Valida scripts, dependências e listas de pacotes
+├── docs/                   # Documentação auxiliar (troubleshooting)
 ├── LICENSE                 # Licença MIT
 ├── screenshots/            # Capturas usadas no README
 ├── lista_pacman.txt        # Pacotes oficiais explícitos
@@ -413,6 +414,13 @@ mango -p -c ~/.config/mango/config.conf   # valida a config do mangowm
 O `.shellcheckrc` na raiz desativa alguns avisos que são falsos positivos
 estruturais (source dinâmico, variáveis de paleta compartilhadas entre scripts
 e expressões literais dentro de aspas simples).
+
+## Solução de problemas
+
+Os problemas reais de instalação e de sessão — listas desatualizadas, monitores,
+fontes, seletor de compartilhamento de tela, file picker do Firefox — estão em
+[`docs/troubleshooting.md`](docs/troubleshooting.md), com o comando de
+diagnóstico de cada caso.
 
 ## Notas
 

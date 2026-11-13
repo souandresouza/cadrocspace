@@ -6,6 +6,8 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ### Adicionado
 
+- `docs/troubleshooting.md`: problemas reais de instalação e de sessão
+  (listas, monitores, fontes, screen share, file picker) com diagnóstico.
 - `check.sh --lists`: confere se cada pacote de `lista_pacman.txt` existe nos
   repos oficiais e se cada um de `lista_aur.txt` existe no AUR (rede
   necessária; fora do `--all` para não quebrar uso offline). Foi o que pegou o
