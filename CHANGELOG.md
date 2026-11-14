@@ -6,6 +6,12 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ### Adicionado
 
+- `colors/sddm-colors.sh`: gera `~/.local/state/cadrocspace/sddm/theme.conf`
+  (cores, fonte e wallpaper) para o tema de login do Cadroc, com contraste
+  mínimo garantido (texto 7:1, secundário 6:1, botão 4.5:1) e sugestão do
+  wallpaper atual. O tema aplica o arquivo com `installer.sh --recolor`.
+- `run-scripts.sh` exporta `CADROC_WALLPAPER` e inclui `sddm` na lista de
+  renderizadores (depois de `cadroc`, que atualiza o `ACCENT_COLOR`).
 - `docs/troubleshooting.md`: problemas reais de instalação e de sessão
   (listas, monitores, fontes, screen share, file picker) com diagnóstico.
 - `check.sh --lists`: confere se cada pacote de `lista_pacman.txt` existe nos

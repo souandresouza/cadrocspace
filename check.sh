@@ -38,7 +38,7 @@ if [[ "$CHECK_DEPS" -eq 1 ]]; then
     REQUIRED=(
         mmsg waybar swaync fuzzel swaybg swayidle swaylock
         grim slurp wl-copy cliphist jq wlr-randr rsync notify-send
-        kitty wlsunset
+        kitty wlsunset sddm
     )
     # Ferramentas pessoais/opcionais.
     OPTIONAL=(ruwall cadrocfile magick)

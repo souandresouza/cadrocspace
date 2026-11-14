@@ -59,7 +59,11 @@ run_color() {
     "$script" || echo "run-scripts: aviso: ${name}-colors.sh falhou" >&2
 }
 
-apps=(cava cadroc fastfetch fuzzel kitty mango swaylock swaync waybar zathura)
+apps=(cava cadroc sddm fastfetch fuzzel kitty mango swaylock swaync waybar zathura)
+
+# Alguns renderizadores aproveitam o wallpaper atual (ex.: sddm-colors.sh
+# sugere o fundo da tela de login).
+export CADROC_WALLPAPER="$WALLPAPER"
 
 for app in "${apps[@]}"; do
     run_color "$app"
