@@ -1,0 +1,6 @@
+# Exemplo de regras de monitor (específico de cada máquina).
+# Copie para monitor.conf e ajuste, ou gere com:
+#   ~/.config/scripts/detect-monitors.sh --write
+
+monitor_rule=name:^eDP-1$,width:1366,height:768,refresh:60,x:0,y:0,scale:1,vrr:0,rr:0
+monitor_rule=name:^HDMI-A-1$,width:1920,height:1080,refresh:100,x:1366,y:0,scale:1,vrr:0,rr:0
