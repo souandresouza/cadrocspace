@@ -29,7 +29,7 @@ CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/cadrocspace"
 TARGETS=(
     mango scripts swayidle wallpapers
-    cava fastfetch fuzzel kitty swaylock swaync waybar zathura
+    cava fastfetch fuzzel kitty mpv swaylock swaync waybar zathura
 )
 
 # Arquivos de tema gerados a partir do wallpaper (run-scripts.sh).

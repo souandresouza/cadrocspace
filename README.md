@@ -55,6 +55,7 @@ cadrocspace/
     ├── fastfetch/          # config.jsonc e ascii.txt
     ├── fuzzel/             # Launcher
     ├── kitty/              # Terminal
+    ├── mpv/                # Player de vídeo (gpu-api=opengl; evita crash do RADV)
     └── zathura/            # Leitor de PDF
 ```
 

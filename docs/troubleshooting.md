@@ -45,6 +45,15 @@ estado.
 Os arquivos de cor são gerados, não versionados. Rode `./deploy.sh --generate`
 (ou `run-scripts.sh`) para reaplicar a paleta a partir do wallpaper atual.
 
+## Reprodução
+
+**`mpv` fecha ao passar o mouse na janela.**
+É um segfault do `libvulkan_radeon` (RADV) no caminho Vulkan do `gpu-next`:
+o OSC/OSD renderizado ao mover o mouse dispara o crash (mpv#18588). O Cadroc já
+força `gpu-api=opengl` em `~/.config/mpv/mpv.conf`; rode `./deploy.sh` para
+restaurar a config se ela foi removida. Para confirmar a causa, veja
+`coredumpctl list mpv` (o stack termina em `libvulkan_radeon.so`).
+
 ## Navegador e compartilhamento
 
 **Seletor de tela não abre, ou a captura fica preta.**

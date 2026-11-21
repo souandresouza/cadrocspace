@@ -18,6 +18,8 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   repos oficiais e se cada um de `lista_aur.txt` existe no AUR (rede
   necessária; fora do `--all` para não quebrar uso offline). Foi o que pegou o
   `yay-bin-debug` inexistente.
+- `.config/mpv/mpv.conf` e alvo `mpv` no `deploy.sh`: configuração do player
+  agora versionada e copiada para `~/.config/mpv`.
 - `defaults/`: fonte versionada dos arquivos de tema gerados (cores, waybar,
   monitor) que deixam de ser versionados em `.config`.
 - `deploy.sh`: semeia de `defaults/` os arquivos gerados que faltarem e os
@@ -65,6 +67,9 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ### Corrigido
 
+- `mpv` fechava ao passar o mouse na janela: `gpu-api=opengl` evita o SIGSEGV
+  do `libvulkan_radeon` (RADV) ao renderizar o OSC/OSD com `gpu-next`/Vulkan
+  (bug upstream mpv#18588).
 - `lista_aur.txt`/`install.sh --update-lists`: pacotes `*-debug` de split
   packages (`yay-bin-debug`) não entram mais nas listas — não existem como
   entrada no AUR e fariam `install.sh --aur` falhar em máquina limpa.
