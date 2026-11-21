@@ -50,6 +50,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ### Alterado
 
+- `defaults/mango/waybar.jsonc`: tooltip do relógio passa a mostrar só o ano (`{:L%Y}`) em vez de ano e mês (`{:L%Y %B}`).
 - `scripts/exit.sh`: removido o ramo `hyprctl dispatch exit`; saída usa `mmsg dispatch quit` (mango) com fallback para `swaymsg`/`loginctl`.
 - `scripts/random-wallpaper.sh`: resolução do monitor vem de `mmsg get all-monitors` (IPC do mango), com fallback `wlr-randr`; removidos `hyprctl` e `xrandr`.
 - `scripts/color_picker.sh`: backend passou a ser `grim` + `slurp` + `imagemagick` (wlroots, sem Hyprland); conversão para HEX/RGB/HSV feita localmente, resultado copiado com `wl-copy`.

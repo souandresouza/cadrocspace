@@ -48,7 +48,7 @@
         "format": " {:L%H:%M:%S, %d %B %Y} ",
         "format-alt": " {:L%A, %d %B %Y} ",
         "interval": 1,
-        "tooltip-format": "<big>{:L%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "tooltip-format": "<big>{:L%Y}</big>\n<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "month",
             "mode-mon-col": 3,
