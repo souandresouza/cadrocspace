@@ -128,9 +128,9 @@
 
     "custom/recorder": {
         "format": "",
-        "on-click": "$HOME/.config/scripts/record.sh",
+        "on-click": "$HOME/.config/scripts/record.sh --gpu",
         "tooltip": true,
-        "tooltip-format": "Iniciar/parar gravação"
+        "tooltip-format": "Iniciar/parar gravação (GPU)"
     },
 
     "custom/recordertime": {
@@ -140,7 +140,7 @@
         "return-type": "plain",
         "if-file-exists": "/tmp/recording_pid",
         "hide-empty-text": true,
-        "on-click": "$HOME/.config/scripts/record.sh",
+        "on-click": "$HOME/.config/scripts/record.sh --gpu",
         "tooltip": true,
         "tooltip-format": "Parar gravação"
     }
