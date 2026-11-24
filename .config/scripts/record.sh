@@ -324,22 +324,31 @@ gpu_start_recording() {
     notify-send "Recording" "Iniciada —.super+shift+F11 para parar" -t 2000
 
     # shellcheck disable=SC2086
-    gpu-screen-recorder $GPU_OPTS -o "$GPU_RECORD_DIR/$filename" &
-    local gsr_pid=$!
+    setsid -f gpu-screen-recorder $GPU_OPTS -o "$GPU_RECORD_DIR/$filename" </dev/null >>/tmp/gpu-screen-recorder.log 2>&1
+    sleep 0.2
+    local gsr_pid
+    gsr_pid=$(pgrep -xn gpu-screen-reco 2>/dev/null || true)
+    if [ -z "$gsr_pid" ]; then
+        notify-send -u critical "Recording" "Falha ao iniciar gpu-screen-recorder" -i dialog-error
+        rm -f "$PID_FILE" "$TIME_FILE" "$GPU_TEMP_FILE"
+        return 1
+    fi
 
     echo "$gsr_pid" > "$PID_FILE"
     setsid -f bash -c '
-        pid="$1"; s=0
-        while kill -0 "$pid" 2>/dev/null; do
+        while pgrep -x gpu-screen-reco >/dev/null 2>&1; do
+            s=$(($(cat /tmp/recording_seconds 2>/dev/null || echo 0) + 1))
+            echo "$s" > /tmp/recording_seconds
             printf "%02d:%02d" $((s / 60)) $((s % 60)) > /tmp/recording_time
-            sleep 1; s=$((s + 1))
+            sleep 1
         done
-        rm -f /tmp/recording_pid /tmp/recording_time
-    ' _ "$gsr_pid" >/dev/null 2>&1
+        rm -f /tmp/recording_pid /tmp/recording_time /tmp/recording_seconds
+    ' >/dev/null 2>&1
 
-    # Fica no foreground até a gravação terminar (ícone da waybar sai junto)
-    while kill -0 "$gsr_pid" 2>/dev/null; do sleep 1; done
-    rm -f "$PID_FILE" "$TIME_FILE"
+    # Fica no foreground até a gravação terminar (ícone da waybar sai junto).
+    # Se este script morrer (ex: reload da Waybar), a gravação continua.
+    while pgrep -x gpu-screen-reco >/dev/null 2>&1; do sleep 1; done
+    rm -f "$PID_FILE" "$TIME_FILE" /tmp/recording_seconds
 }
 
 # ============================================================
